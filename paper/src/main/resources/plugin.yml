@@ -1,0 +1,31 @@
+name: PetThoughts
+version: '${version}'
+main: dev.petthoughts.paper.PetThoughtsPlugin
+api-version: '1.21'
+folia-supported: true
+description: Tamed pets show thought bubbles that react to the world. Every pet gets a personality.
+authors: [Joel Cardona]
+website: https://github.com/JoelCardona01/pet-thoughts
+
+commands:
+  petthoughts:
+    description: Pet Thoughts main command.
+    usage: /petthoughts help
+    aliases: [pt]
+
+permissions:
+  petthoughts.toggle:
+    description: Hide or show thought bubbles for yourself.
+    default: true
+  petthoughts.info:
+    description: See the personality and mood of your own pets.
+    default: true
+  petthoughts.mute:
+    description: Silence one of your own pets.
+    default: true
+  petthoughts.pet:
+    description: Pet your pets (sneak + right click with an empty hand).
+    default: true
+  petthoughts.admin:
+    description: Reload, change personalities and force thoughts.
+    default: op

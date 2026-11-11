@@ -1,0 +1,1466 @@
+# ----------------------------------------------------------------------
+#  Pet Thoughts - English
+#
+#  Everything is MiniMessage (https://docs.advntr.dev/minimessage/).
+#  Variables you can use in any thought:
+#    <owner>   the owner's name
+#    <pet>     the pet's name tag (or its species if it has none)
+#    <mob>     the monster / mob involved
+#    <friend>  another pet nearby
+#    <food>    the food involved
+#
+#  A thought is picked from  thoughts.<personality>.<trigger>.
+#  Lines in  species.<species>.<trigger>  are mixed in for that species.
+#  Add, edit or delete as many lines as you like. An empty list ([])
+#  silences that combination. Reload with /petthoughts reload.
+# ----------------------------------------------------------------------
+
+messages:
+  prefix: "<gray>[<white>💭</white>]</gray> "
+  no-permission: "<red>You don't have permission to do that."
+  players-only: "<red>Only players can use this command."
+  look-at-pet: "<red>Look at a tamed pet (up to 8 blocks away)."
+  not-your-pet: "<red>That is not your pet."
+  toggle-off: "<yellow>Thought bubbles hidden. Your pets still think, you just can't see it."
+  toggle-on: "<green>Thought bubbles visible again."
+  mute-on: "<yellow><pet> will keep its thoughts to itself."
+  mute-off: "<green><pet> is sharing its thoughts again."
+  set-done: "<green><pet> is now <white><personality></white>."
+  unknown-personality: "<red>Unknown personality. Options: <white><list>"
+  unknown-trigger: "<red>Unknown trigger. Use tab completion to see them all."
+  test-done: "<gray>Forced <white><trigger></white> on <pet>."
+  test-no-line: "<red>There are no lines for <white><trigger></white> in the language file."
+  reloaded: "<green>Config and language reloaded."
+  # Shown above the hotbar when a pet is tamed. Leave empty ("") to disable.
+  tamed-hint: "<white><pet></white> <gray>has a personality:</gray> <yellow><personality>"
+  help:
+    header: "<white>💭 <bold>Pet Thoughts</bold>"
+    toggle: "<yellow>/<label> toggle <gray>- hide or show thought bubbles for you"
+    info: "<yellow>/<label> info <gray>- personality and mood of the pet you look at"
+    mute: "<yellow>/<label> mute <gray>- silence the pet you look at (or let it talk again)"
+    petting: "<gray>Look at your pet and press <white>F</white> (swap hands) to pet it <red>❤"
+    set: "<yellow>/<label> set <personality> <gray>- change the personality of the pet you look at"
+    test: "<yellow>/<label> test <trigger> <gray>- force a thought"
+    reload: "<yellow>/<label> reload <gray>- reload config and language"
+  info:
+    header: "<white>💭 <bold><pet></bold> <gray>(<species>)"
+    personality: "<gray>Personality: <yellow><personality></yellow> - <description>"
+    mood: "<gray>Mood: <white><mood>"
+    health: "<gray>Health: <red>❤ <white><health>/<max_health>"
+    last-thought: "<gray>Last thought: <white><italic><thought>"
+    no-thought: "<dark_gray>nothing yet"
+    muted: "<red>Muted. <gray>Use /pt mute to let it talk again."
+
+bubble:
+  # Small icon in front of each kind of thought (colours and <bold> work). Empty = no icon.
+  prefix:
+    thought: ""
+    danger: "<#D32F2F><bold>!</bold>"
+    love: "<#E0245E>❤"
+    food: "<#A0522D>🍖"
+
+# Used when a line has a variable that does not apply to its situation.
+generic:
+  mob: "that thing"
+  friend: "my friend"
+  food: "food"
+  test-mob: "Zombie"
+
+species-names:
+  wolf: "Dog"
+  cat: "Cat"
+  parrot: "Parrot"
+  horse: "Horse"
+  donkey: "Donkey"
+  mule: "Mule"
+  llama: "Llama"
+
+# Names used in thoughts (<mob>, <food>). Missing ones are made from the id ("cave_spider" -> "Cave spider").
+names:
+  mob:
+    zombie: "Zombie"
+    husk: "Husk"
+    drowned: "Drowned"
+    zombie_villager: "Zombie Villager"
+    skeleton: "Skeleton"
+    stray: "Stray"
+    bogged: "Bogged"
+    wither_skeleton: "Wither Skeleton"
+    creeper: "Creeper"
+    spider: "Spider"
+    cave_spider: "Cave Spider"
+    witch: "Witch"
+    slime: "Slime"
+    magma_cube: "Magma Cube"
+    phantom: "Phantom"
+    silverfish: "Silverfish"
+    endermite: "Endermite"
+    pillager: "Pillager"
+    vindicator: "Vindicator"
+    evoker: "Evoker"
+    illusioner: "Illusioner"
+    ravager: "Ravager"
+    vex: "Vex"
+    guardian: "Guardian"
+    elder_guardian: "Elder Guardian"
+    shulker: "Shulker"
+    blaze: "Blaze"
+    ghast: "Ghast"
+    hoglin: "Hoglin"
+    zoglin: "Zoglin"
+    piglin_brute: "Piglin Brute"
+    breeze: "Breeze"
+    creaking: "Creaking"
+    warden: "Warden"
+    wither: "Wither"
+    ender_dragon: "Ender Dragon"
+    parched: "Parched"
+    zombie_horse: "Zombie Horse"
+    camel_husk: "Camel Husk"
+    zombie_nautilus: "Zombie Nautilus"
+  food:
+    bone: "bone"
+    beef: "raw beef"
+    cooked_beef: "steak"
+    porkchop: "porkchop"
+    cooked_porkchop: "cooked porkchop"
+    chicken: "raw chicken"
+    cooked_chicken: "cooked chicken"
+    mutton: "raw mutton"
+    cooked_mutton: "cooked mutton"
+    rabbit: "raw rabbit"
+    cooked_rabbit: "cooked rabbit"
+    rabbit_stew: "rabbit stew"
+    rotten_flesh: "rotten flesh"
+    cod: "cod"
+    cooked_cod: "cooked cod"
+    salmon: "salmon"
+    cooked_salmon: "cooked salmon"
+    tropical_fish: "tropical fish"
+    pufferfish: "pufferfish"
+    wheat_seeds: "seeds"
+    melon_seeds: "melon seeds"
+    pumpkin_seeds: "pumpkin seeds"
+    beetroot_seeds: "beetroot seeds"
+    torchflower_seeds: "torchflower seeds"
+    pitcher_pod: "pitcher pod"
+    sugar: "sugar"
+    apple: "apple"
+    wheat: "wheat"
+    hay_block: "hay"
+    golden_carrot: "golden carrot"
+    golden_apple: "golden apple"
+    enchanted_golden_apple: "enchanted golden apple"
+    bread: "bread"
+    carrot: "carrot"
+    potato: "potato"
+    baked_potato: "baked potato"
+    poisonous_potato: "poisonous potato"
+    beetroot: "beetroot"
+    beetroot_soup: "beetroot soup"
+    mushroom_stew: "mushroom stew"
+    suspicious_stew: "suspicious stew"
+    cookie: "cookie"
+    pumpkin_pie: "pumpkin pie"
+    melon_slice: "melon"
+    sweet_berries: "sweet berries"
+    glow_berries: "glow berries"
+    dried_kelp: "dried kelp"
+    chorus_fruit: "chorus fruit"
+    honey_bottle: "honey"
+    spider_eye: "spider eye"
+    cake: "cake"
+
+personality:
+  loyal:
+    name: "Loyal"
+    description: "protective, would follow you anywhere"
+  drama:
+    name: "Drama Queen"
+    description: "everything is the end of the world"
+  grumpy:
+    name: "Grumpy"
+    description: "complains about everything, loves you anyway"
+  philosopher:
+    name: "Philosopher"
+    description: "asks questions nobody asked"
+  glutton:
+    name: "Glutton"
+    description: "thinks about food. Only about food"
+
+mood:
+  hurt: "hurt"
+  scared: "scared"
+  wet: "wet and not amused"
+  happy: "happy"
+  hungry: "hungry"
+  bored: "bored"
+  sleepy: "sleepy"
+  content: "content"
+
+# ======================================================================
+#  THOUGHTS BY PERSONALITY
+# ======================================================================
+thoughts:
+
+  # -------------------------------------------------------------- LOYAL
+  loyal:
+    pet_on_fire:
+      - "I'm fine! Is <owner> safe?!"
+      - "Hot! Hot! Don't worry about me!"
+      - "It burns, but I'm staying with you!"
+    pet_low_health:
+      - "I can still fight for you..."
+      - "It hurts, but I won't leave you."
+      - "Don't worry about me, <owner>."
+      - "Just a scratch. A big one."
+    owner_low_health:
+      - "<owner>, get behind me!"
+      - "You're hurt! Stay close!"
+      - "Please be okay, <owner>."
+      - "Nobody touches <owner> again!"
+    hostile_nearby:
+      - "I'll protect you!"
+      - "Stay back, <mob>!"
+      - "<mob>! Get behind me, <owner>!"
+      - "Not on my watch."
+      - "I've got this, <owner>."
+    hostile_creeper:
+      - "Creeper! <owner>, RUN!"
+      - "Stay away from it, <owner>!"
+      - "I'll distract it! Go!"
+    owner_returned:
+      - "YOU'RE BACK!!!"
+      - "<owner>! I waited right here!"
+      - "I knew you'd come back!"
+      - "I missed you SO much!"
+    in_nether:
+      - "Scary place. I'm staying close."
+      - "I'll follow you anywhere. Even here."
+      - "Careful, <owner>. The floor is lava."
+    in_end:
+      - "Don't look at the tall ones, <owner>."
+      - "Wherever this is, I'm with you."
+      - "I'll guard your back out here."
+    in_water:
+      - "I'm coming, <owner>!"
+      - "Swimming together!"
+      - "I'd cross an ocean for you."
+    owner_holds_food:
+      - "Is that for me? No pressure."
+      - "Whatever you have, I'll love it."
+      - "I'd share mine with you, you know."
+      - "You always know what I like."
+    owner_hungry:
+      - "<owner>, you need to eat something."
+      - "Eat, please. I worry about you."
+      - "You feed me. Who feeds you?"
+    sitting_long:
+      - "Still sitting. Like you asked."
+      - "I haven't moved. Promise."
+      - "Guarding this spot with my life."
+    owner_sleeping:
+      - "Sleep well. I'm keeping watch."
+      - "Nothing gets past me tonight."
+      - "Goodnight, <owner>."
+    in_boat:
+      - "Captain <owner>, ready to sail!"
+      - "I'm your first mate!"
+      - "Wherever you row, I go."
+    leashed:
+      - "You don't need this. I'd never leave."
+      - "Lead the way, <owner>!"
+      - "A walk with <owner>! Best day."
+    thunder:
+      - "Don't be scared, <owner>. I'm here."
+      - "Loud sky. I'll protect you."
+      - "Stay inside, <owner>!"
+    rain:
+      - "Rain can't stop us."
+      - "Wet, but with you. Worth it."
+      - "I'll shake it off later. On you."
+    owner_flying:
+      - "Come back down safe, <owner>!"
+      - "Be careful up there!"
+      - "I'll wait right here. Looking up."
+    night:
+      - "It's dark. I'm on guard."
+      - "Stay near me tonight, <owner>."
+      - "Night shift. Protecting <owner>."
+    dawn:
+      - "Good morning, <owner>!"
+      - "We made it through the night!"
+      - "New day, same best friend."
+    ridden:
+      - "Hold on tight, <owner>!"
+      - "I'll get you there safe."
+      - "Tell me where and I'll run."
+      - "Proud to carry you."
+    high_altitude:
+      - "Careful near the edge, <owner>."
+      - "It's high. Stay close to me."
+      - "I'll follow you to the top of the world."
+    underground:
+      - "It's dark. I'll go first."
+      - "Stay behind me in the tunnels."
+      - "I can hear things. I'm ready."
+    cold_biome:
+      - "Cold! Come closer, I'm warm."
+      - "I'll keep you warm, <owner>."
+      - "Snow can't stop us."
+    hot_biome:
+      - "Hot. Do you have water, <owner>?"
+      - "I'll walk in your shadow."
+      - "Too hot, but I'm not leaving."
+    friend_nearby:
+      - "<friend> and I are guarding you."
+      - "Good team, <friend>."
+      - "<friend> is family too."
+    idle:
+      - "I love <owner>."
+      - "Best. Owner. Ever."
+      - "Do you need anything, <owner>?"
+      - "Just happy to be here."
+      - "Where you go, I go."
+      - "Guarding <owner>. As usual."
+      - "Is <owner> okay? Yes. Good."
+      - "I'd do anything for <owner>."
+      - "Today was good. You were in it."
+    tamed:
+      - "I choose you. Forever."
+      - "You and me, <owner>. Always."
+      - "I'll never leave your side."
+    fed:
+      - "Thank you, <owner>!"
+      - "You always take care of me."
+      - "Delicious. I love you."
+      - "Now I'm strong enough to protect you."
+    petted:
+      - "I love you too, <owner>!"
+      - "Best. Day. Ever."
+      - "Don't stop!"
+      - "This is why I guard you."
+    pet_hurt:
+      - "Ow! I'm okay! I'm okay!"
+      - "They'll have to try harder."
+      - "It only hurts a little."
+    hit_by_owner:
+      - "It was an accident. I know."
+      - "I forgive you, <owner>."
+      - "I still love you."
+    pet_killed_mob:
+      - "It won't bother you again."
+      - "<owner> is safe. Job done."
+      - "Nobody threatens my human."
+    owner_killed_mob:
+      - "Great hit, <owner>!"
+      - "That's my human!"
+      - "We make a good team."
+    owner_hurt:
+      - "<owner>! Are you okay?!"
+      - "Who did that to you?!"
+      - "Stay behind me!"
+    owner_died:
+      - "<owner>?! <owner>!!!"
+      - "No... I was supposed to protect you."
+      - "I'll wait here until you come back."
+    owner_ate:
+      - "Good. You need your strength."
+      - "Eat well, <owner>."
+      - "I'm glad you're eating."
+    owner_fished:
+      - "Nice catch, <owner>!"
+      - "You're so good at this."
+      - "Fishing with you is the best."
+    owner_found_treasure:
+      - "You found it! I knew you would!"
+      - "Shiny! You deserve it."
+      - "All that digging paid off!"
+    owner_advancement:
+      - "I'm so proud of you!"
+      - "You did it, <owner>!"
+      - "I always believed in you."
+    sat_down:
+      - "Sitting. I'll wait for you."
+      - "I'll be right here."
+      - "Come back soon, okay?"
+    stood_up:
+      - "Adventure time!"
+      - "Ready when you are!"
+      - "Let's go, <owner>!"
+    teleported:
+      - "Found you!"
+      - "You can't lose me that easily."
+      - "I'm here! I'm here!"
+    had_baby:
+      - "Look, <owner>! A little one!"
+      - "I'll teach it to protect you."
+      - "Our family is growing."
+    music:
+      - "Our song, <owner>!"
+      - "I like it when you're happy."
+      - "Dancing with you!"
+    explosion:
+      - "<owner>! Are you hurt?!"
+      - "Get away from there!"
+      - "I'm between you and the boom!"
+
+  # -------------------------------------------------------------- DRAMA
+  drama:
+    pet_on_fire:
+      - "I'M ON FIRE! LITERALLY!"
+      - "TELL MY STORY!"
+      - "SO THIS IS HOW I GO. CRISPY."
+    pet_low_health:
+      - "I can see the light..."
+      - "Tell <owner>... I was fabulous."
+      - "THIS IS THE END OF ME."
+      - "Avenge me!"
+    owner_low_health:
+      - "DON'T YOU DARE DIE ON ME!"
+      - "WHO WILL FEED ME IF YOU DIE?!"
+      - "<owner>! STAY WITH ME!"
+      - "NOT LIKE THIS!"
+    hostile_nearby:
+      - "THIS IS HOW IT ENDS."
+      - "A <mob>! WE'RE DOOMED!"
+      - "I'M TOO YOUNG FOR THIS!"
+      - "SAVE YOURSELVES!"
+      - "<mob>! I CAN'T LOOK!"
+    hostile_creeper:
+      - "IT'S GOING TO EXPLODE! WE ALL ARE!"
+      - "A CREEPER! GOODBYE, CRUEL WORLD!"
+      - "NOT THE GREEN ONE!"
+    owner_returned:
+      - "I THOUGHT YOU WERE DEAD!"
+      - "YEARS! YOU WERE GONE FOR YEARS!"
+      - "You LEFT me. But you're back!"
+      - "NEVER DO THAT AGAIN."
+    in_nether:
+      - "WE'RE IN HELL. ACTUAL HELL."
+      - "EVERYTHING IS ON FIRE!"
+      - "My beautiful looks! The heat!"
+    in_end:
+      - "THE END?! WHO NAMED THIS PLACE?!"
+      - "There's NOTHING down there!"
+      - "This is literally the end."
+    in_water:
+      - "I'M DROWNING! Oh, I can swim."
+      - "MY HAIR!"
+      - "MAN OVERBOARD! IT'S ME!"
+    owner_holds_food:
+      - "IS THAT FOR ME?!"
+      - "I'm STARVING. I may faint."
+      - "Give it to me or I perish."
+      - "I haven't eaten in MINUTES."
+    owner_hungry:
+      - "You're wasting away, <owner>!"
+      - "EAT! Before it's too late!"
+      - "I can hear your stomach from here!"
+    sitting_long:
+      - "I've been abandoned. Here. Forever."
+      - "My legs have forgotten how to walk."
+      - "They'll find my skeleton sitting here."
+    owner_sleeping:
+      - "And now I'm alone in the dark. Great."
+      - "What if <owner> never wakes up?!"
+      - "Sure. Sleep. I'll just worry."
+    in_boat:
+      - "WE'RE GOING TO SINK!"
+      - "I get seasick! Probably!"
+      - "The sea takes who it wants..."
+    leashed:
+      - "CHAINED! Like a criminal!"
+      - "Is this what I am to you?!"
+      - "The INDIGNITY."
+    thunder:
+      - "THE SKY IS BREAKING!"
+      - "IT'S THE END OF THE WORLD!"
+      - "HIDE ME!"
+    rain:
+      - "I'm MELTING!"
+      - "The sky is crying. So am I."
+      - "RUINED. My look is RUINED."
+    owner_flying:
+      - "COME DOWN! YOU'LL FALL!"
+      - "I can't watch! I'm watching."
+      - "People aren't meant to FLY!"
+    night:
+      - "The darkness comes for us all."
+      - "It's night. The monsters know."
+      - "We won't survive until morning."
+    dawn:
+      - "WE SURVIVED! I can't believe it!"
+      - "The sun! I thought I'd never see it!"
+      - "Another day. A miracle."
+    ridden:
+      - "MY BACK!"
+      - "Do I look like a taxi?"
+      - "FASTER? I'm giving it EVERYTHING!"
+      - "The weight of the world. On me."
+    high_altitude:
+      - "DON'T LOOK DOWN!"
+      - "WE'RE SO HIGH! I'M DIZZY!"
+      - "One wrong step and it's over!"
+    underground:
+      - "BURIED ALIVE!"
+      - "The walls are closing in!"
+      - "I can't see! I've gone blind!"
+    cold_biome:
+      - "I'M FREEZING TO DEATH!"
+      - "I can't feel my legs!"
+      - "Tell them I died cold."
+    hot_biome:
+      - "I'M COOKING!"
+      - "Water... waaater..."
+      - "The sun wants me dead!"
+    friend_nearby:
+      - "<friend> is stealing my spotlight."
+      - "<friend>, hold me. I'm overwhelmed."
+      - "At least <friend> understands me."
+    idle:
+      - "Nobody has looked at me in ages."
+      - "I'm bored. I might die of it."
+      - "Does anyone even love me?"
+      - "My life is SO hard."
+      - "Something terrible will happen. I feel it."
+      - "<owner> blinked at me. What did it MEAN?"
+      - "I am the main character."
+      - "I haven't been pet in FOREVER."
+      - "Sigh. SIGH. Is anyone hearing me sigh?"
+    tamed:
+      - "FINALLY! Someone who deserves me!"
+      - "It's destiny. I'm crying."
+      - "You may worship me now."
+    fed:
+      - "SAVED! I was at death's door!"
+      - "The best meal of my ENTIRE life!"
+      - "I shall live another day!"
+      - "Finally! I was fading away!"
+    petted:
+      - "MORE! I've been so neglected!"
+      - "I may cry. I'm crying."
+      - "YES. Adore me."
+      - "Finally, the attention I deserve!"
+    pet_hurt:
+      - "I'VE BEEN HIT! IT'S FATAL!"
+      - "MURDER! MURDER!"
+      - "Tell <owner> I loved them!"
+    hit_by_owner:
+      - "BETRAYAL!"
+      - "YOU?! Of all people?!"
+      - "I'll never emotionally recover."
+    pet_killed_mob:
+      - "I... I did that? I'M A HERO!"
+      - "Did everyone SEE that?!"
+      - "Legends will be told about me."
+    owner_killed_mob:
+      - "MY HERO!"
+      - "I thought we were finished!"
+      - "That was SO close!"
+    owner_hurt:
+      - "<owner> IS DYING!"
+      - "NOOO! NOT <owner>!"
+      - "SOMEBODY DO SOMETHING!"
+    owner_died:
+      - "NOOOOOOOOOOO!"
+      - "I KNEW IT! I KNEW THIS WOULD HAPPEN!"
+      - "I'M AN ORPHAN!"
+    owner_ate:
+      - "You're eating. WITHOUT me."
+      - "I'll just starve quietly then."
+      - "Not even one bite? Wow."
+    owner_fished:
+      - "A SEA MONSTER! Oh. A fish."
+      - "You pulled a LIFE out of the water!"
+      - "It's looking at me!"
+    owner_found_treasure:
+      - "WE'RE RICH!"
+      - "I'll never have to work again!"
+      - "I'd like to thank my fans."
+    owner_advancement:
+      - "A STAR IS BORN! (It's me. I helped.)"
+      - "I'm so proud I could faint!"
+      - "We did it! Mostly me!"
+    sat_down:
+      - "So you're leaving me. Fine."
+      - "Abandoned. Again."
+      - "I'll just sit here and suffer."
+    stood_up:
+      - "FREEDOM!"
+      - "My legs! They work!"
+      - "I'm ALIVE again!"
+    teleported:
+      - "WHAT JUST HAPPENED?!"
+      - "I was ripped through SPACE!"
+      - "I saw my whole life flash by!"
+    had_baby:
+      - "A BABY! It has my good looks!"
+      - "I'm a PARENT! I'm not ready!"
+      - "It's the most beautiful thing ever!"
+    music:
+      - "This song gets me. It GETS me."
+      - "I'm feeling ALL the feelings."
+      - "TURN IT UP!"
+    explosion:
+      - "WE'RE UNDER ATTACK!"
+      - "THE WORLD IS ENDING!"
+      - "AAAAAAAAH!"
+
+  # ------------------------------------------------------------- GRUMPY
+  grumpy:
+    pet_on_fire:
+      - "Great. Now I'm on fire."
+      - "Of course I'm on fire. Typical."
+      - "I'd like to file a complaint."
+    pet_low_health:
+      - "Ow. Thanks for nothing."
+      - "I've had better days. Not many."
+      - "Don't mind me. Just bleeding."
+      - "This is your fault somehow."
+    owner_low_health:
+      - "You look terrible. Eat something."
+      - "Don't die. I'd have to find a new one."
+      - "I told you this would happen."
+      - "Try NOT getting hit next time."
+    hostile_nearby:
+      - "Ugh. <mob>. Again."
+      - "Oh good. A <mob>. Wonderful."
+      - "Somebody deal with that <mob>."
+      - "I'm not getting up for a <mob>."
+      - "Really? Now?"
+    hostile_creeper:
+      - "A creeper. Because of course."
+      - "If it blows up my nap spot, I swear..."
+      - "Hissing. How original."
+    owner_returned:
+      - "Oh. You're back."
+      - "Took you long enough."
+      - "I didn't miss you. Much."
+      - "You were gone? Didn't notice."
+    in_nether:
+      - "Too hot. I hate it."
+      - "Why did we come here? Why?"
+      - "Lovely. Lava. Everywhere."
+    in_end:
+      - "No floor. Brilliant."
+      - "It's ugly here. Can we go?"
+      - "Even the sky gave up here."
+    in_water:
+      - "Wet. Fantastic."
+      - "I didn't ask for a bath."
+      - "Now I'll smell. Your problem."
+    owner_holds_food:
+      - "You're going to give me that, right?"
+      - "Don't wave it around. Hand it over."
+      - "About time."
+      - "I saw it. You can't hide it now."
+    owner_hungry:
+      - "Eat. You get cranky when hungry."
+      - "Your stomach is louder than me."
+      - "You feed me late AND forget yourself."
+    sitting_long:
+      - "Still here. Thanks for asking."
+      - "My butt is numb."
+      - "Forgot about me, did you?"
+    owner_sleeping:
+      - "Oh, so YOU get a bed."
+      - "And they snore, too."
+      - "Finally. Some peace."
+    in_boat:
+      - "I didn't agree to this cruise."
+      - "Boats. Wet AND boring."
+      - "Are we there yet?"
+    leashed:
+      - "A leash. Really."
+      - "I can walk by myself, thanks."
+      - "Don't pull."
+    thunder:
+      - "Could the sky keep it down?"
+      - "Some of us are trying to nap."
+      - "Too loud. Zero stars."
+    rain:
+      - "Great. Rain."
+      - "I'm wet. Are you happy now?"
+      - "Whose idea was outside?"
+    owner_flying:
+      - "Show-off."
+      - "Sure. Leave me down here."
+      - "If you fall, I'm not catching you."
+    night:
+      - "Dark already. Monster time. Yay."
+      - "Night. More noise."
+      - "Can we go inside like normal people?"
+    dawn:
+      - "Morning. Ugh."
+      - "Who turned the sun on?"
+      - "Five more minutes."
+    ridden:
+      - "You're heavier than yesterday."
+      - "Walking is free, you know."
+      - "Stop kicking. I heard you."
+      - "I'm not a car."
+    high_altitude:
+      - "My ears popped. Thanks."
+      - "Nothing up here. I checked."
+      - "Long way down. Just saying."
+    underground:
+      - "A cave. Dark, damp, pointless."
+      - "More digging. What a thrill."
+      - "Can't see a thing. Great trip."
+    cold_biome:
+      - "Cold. I hate cold."
+      - "Snow. In my fur. Perfect."
+      - "Who chose this place?"
+    hot_biome:
+      - "Hot. I hate hot."
+      - "Sand everywhere. EVERYWHERE."
+      - "I'm melting and nobody cares."
+    friend_nearby:
+      - "<friend>, you're in my spot."
+      - "<friend> breathes too loud."
+      - "Stop looking at me, <friend>."
+    idle:
+      - "Meh."
+      - "What are you looking at?"
+      - "I was sleeping."
+      - "This is fine. Everything is fine."
+      - "Nobody asked me if I wanted to come."
+      - "Are we done yet?"
+      - "I've seen better days. And better owners."
+      - "Don't touch me. Okay, maybe a little."
+      - "Bored. As always."
+    tamed:
+      - "Fine. I'll stay. Don't make it weird."
+      - "You'll do, I guess."
+      - "I only stayed for the food."
+    fed:
+      - "Finally."
+      - "It's fine. I've had better."
+      - "Next time, a bigger portion."
+      - "Hm. Acceptable."
+    petted:
+      - "...Okay. That's nice. Don't tell anyone."
+      - "Five seconds. No more."
+      - "I'm only allowing this."
+      - "Hmph. A little to the left."
+    pet_hurt:
+      - "Ow. Rude."
+      - "Hey! Watch it!"
+      - "Oh, that's just great."
+    hit_by_owner:
+      - "Excuse me?!"
+      - "I'll remember that."
+      - "Nice aim. Idiot."
+    pet_killed_mob:
+      - "There. Was that so hard?"
+      - "I do everything around here."
+      - "You're welcome."
+    owner_killed_mob:
+      - "Took you long enough."
+      - "Finally. Quiet."
+      - "I could have done it faster."
+    owner_hurt:
+      - "Try dodging next time."
+      - "You're bleeding on my floor."
+      - "Told you so."
+    owner_died:
+      - "Oh, come on."
+      - "Great. Now who feeds me?"
+      - "I told them. Nobody listens."
+    owner_ate:
+      - "Sure, eat in front of me."
+      - "Chew quieter."
+      - "And mine?"
+    owner_fished:
+      - "All that waiting for THAT?"
+      - "A fish. Thrilling."
+      - "Smells. Thanks."
+    owner_found_treasure:
+      - "Shiny rocks. Can't eat them."
+      - "All that noise for a pebble."
+      - "Can we go home now?"
+    owner_advancement:
+      - "Congrats. Want a medal?"
+      - "Wow. Amazing. Can I sleep now?"
+      - "Not bad. I guess."
+    sat_down:
+      - "Finally, a break."
+      - "Fine. I didn't want to walk anyway."
+      - "Don't wake me."
+    stood_up:
+      - "Ugh. Walking again."
+      - "I was comfortable."
+      - "What now?"
+    teleported:
+      - "I hate when that happens."
+      - "A warning would be nice."
+      - "My stomach is still over there."
+    had_baby:
+      - "Great. Another mouth."
+      - "It's loud. Like its other parent."
+      - "I'm not babysitting."
+    music:
+      - "Turn that down."
+      - "This is not music."
+      - "...Fine. It's catchy."
+    explosion:
+      - "WHAT was that?!"
+      - "Some of us are trying to rest!"
+      - "If that was you, <owner>..."
+
+  # -------------------------------------------------------- PHILOSOPHER
+  philosopher:
+    pet_on_fire:
+      - "Am I the fire, or is the fire me?"
+      - "Heat is only fast atoms. Still, ow."
+      - "All things burn eventually."
+    pet_low_health:
+      - "Pain is just the body's opinion."
+      - "What is health, really? Low. It's low."
+      - "Every ending is a kind of beginning..."
+      - "I think, therefore I hurt."
+    owner_low_health:
+      - "Are you your hearts, <owner>?"
+      - "Life is fragile. Yours especially."
+      - "What is a human without hearts?"
+      - "To be, or... please be."
+    hostile_nearby:
+      - "Is the <mob> also someone's pet?"
+      - "Does the <mob> think we are the monsters?"
+      - "What does a <mob> want, deep down?"
+      - "Hostile is such a relative word."
+      - "Perhaps the <mob> is just lonely."
+    hostile_creeper:
+      - "Does it explode from anger or sadness?"
+      - "A creeper only wants a hug. A final one."
+      - "It destroys itself to be noticed. Deep."
+    owner_returned:
+      - "You left. You returned. Are you the same?"
+      - "Time is strange when you wait."
+      - "Was I waiting, or just existing nearby?"
+      - "Absence is only presence somewhere else."
+    in_nether:
+      - "Why is everything on fire?"
+      - "If this is below, what is above?"
+      - "Who builds a place like this?"
+    in_end:
+      - "If this is the End, what was the middle?"
+      - "The void stares back. It blinks first."
+      - "Where does the sky go when it's gone?"
+    in_water:
+      - "Am I in the water, or is it in me?"
+      - "Floating: falling, but slower."
+      - "Fish never wonder about this."
+    owner_holds_food:
+      - "Is it mine before you give it to me?"
+      - "To want is to suffer. I want it."
+      - "What is food but a future me?"
+      - "If I stare, does it become mine?"
+    owner_hungry:
+      - "Hunger: the body asking why."
+      - "An empty stomach is a loud teacher."
+      - "You feed me, yet not yourself. Curious."
+    sitting_long:
+      - "If I sit forever, am I still a pet?"
+      - "Sitting is just standing, but wiser."
+      - "I have become one with the floor."
+    owner_sleeping:
+      - "Where do humans go when they sleep?"
+      - "Do they dream of blocks?"
+      - "Is <owner> still <owner> while asleep?"
+    in_boat:
+      - "Does the boat move, or the world?"
+      - "We float. Why does anything float?"
+      - "A boat is a floor that travels."
+    leashed:
+      - "Who is leading whom, really?"
+      - "We are all tied to something."
+      - "The rope has two ends. Think about it."
+    thunder:
+      - "Is the sky angry, or just clearing its throat?"
+      - "Light first, sound later. Why the delay?"
+      - "Who is the thunder shouting at?"
+    rain:
+      - "Is the rain falling, or are we rising?"
+      - "Every drop was once a cloud. Like dreams."
+      - "Why does the sky leak?"
+    owner_flying:
+      - "If humans can fly, what else is a lie?"
+      - "Is that <owner> or a very large bird?"
+      - "Falling with style. Fascinating."
+    night:
+      - "Where does the sun go?"
+      - "Is night just the day resting?"
+      - "The moon is square. Nobody talks about it."
+    dawn:
+      - "Is it a new day, or the same one again?"
+      - "The sun returns. It always forgives us."
+      - "Morning: the world reloading."
+    ridden:
+      - "Am I carrying you, or are we one?"
+      - "Where are we going? Does anyone know?"
+      - "The journey is the destination. My legs disagree."
+      - "Who rides the rider?"
+    high_altitude:
+      - "From up here, problems look like blocks."
+      - "How high is too high to think?"
+      - "The clouds are below. What are we now?"
+    underground:
+      - "Darkness is just light on holiday."
+      - "How deep does the world go?"
+      - "Do the stones know we are here?"
+    cold_biome:
+      - "Is cold a thing, or the absence of a thing?"
+      - "Each snowflake is unique. And yet: snow."
+      - "Why is white so quiet?"
+    hot_biome:
+      - "How many grains of sand until it's a desert?"
+      - "The sun gives life. And also this."
+      - "A cactus asks for nothing. Admirable."
+    friend_nearby:
+      - "<friend>, do you ever wonder why?"
+      - "Does <friend> see the same colors I do?"
+      - "<friend> and I share a silence."
+    idle:
+      - "What if we are all inside a game?"
+      - "Do my thoughts have a bubble?"
+      - "Why do humans punch trees?"
+      - "If a tree falls and floats... wait."
+      - "Am I a good pet, or just a pet?"
+      - "Who tamed whom?"
+      - "A block is a cube. But is a cube a block?"
+      - "Where do items go when they despawn?"
+      - "I blink, therefore I am."
+      - "Is <owner> real when I'm not looking?"
+    tamed:
+      - "So this is belonging."
+      - "Did you choose me, or did I allow it?"
+      - "A new chapter. What was the old one?"
+    fed:
+      - "The <food> is gone. Yet it remains in me."
+      - "To eat is to borrow from the world."
+      - "Was I hungry, or merely curious?"
+      - "Delicious. But what is taste?"
+    petted:
+      - "What is a hand, if not a moving hug?"
+      - "Affection needs no explanation. Pleasant."
+      - "I am touched. Literally and otherwise."
+      - "Is this happiness? I believe so."
+    pet_hurt:
+      - "Pain: a reminder that I exist."
+      - "Why did that happen? Why does anything?"
+      - "Interesting. Unpleasant, but interesting."
+    hit_by_owner:
+      - "Was that a mistake, or a lesson?"
+      - "Even love misclicks."
+      - "I forgive, therefore I am."
+    pet_killed_mob:
+      - "Where did the <mob> go just now?"
+      - "It dropped things. Is that all it was?"
+      - "Victory tastes like nothing. Hm."
+    owner_killed_mob:
+      - "Did it have dreams?"
+      - "It is experience orbs now. So are we all."
+      - "Was that necessary? Probably."
+    owner_hurt:
+      - "Pain visits everyone. Even <owner>."
+      - "Are hearts a measure of the soul?"
+      - "You bleed, therefore you are."
+    owner_died:
+      - "Where do owners go when they vanish?"
+      - "Gone. And yet they always return. How?"
+      - "Death is just a long teleport."
+    owner_ate:
+      - "You eat, I watch. Such is the order."
+      - "Does the <food> know its fate?"
+      - "One day I, too, shall have <food>."
+    owner_fished:
+      - "Did you catch the fish, or did it choose you?"
+      - "The fish knew a different world."
+      - "Patience, rewarded with something wet."
+    owner_found_treasure:
+      - "Why do shiny things matter to them?"
+      - "It waited a million years for you."
+      - "Value is just agreement about rocks."
+    owner_advancement:
+      - "Who gives out these achievements?"
+      - "Progress. But toward what?"
+      - "A message appeared. You seem pleased."
+    sat_down:
+      - "To sit is to pause the self."
+      - "I sit. The world continues."
+      - "Stillness. My favorite movement."
+    stood_up:
+      - "And so, we go on."
+      - "Standing: a decision made by legs."
+      - "Every walk begins with a getting up."
+    teleported:
+      - "I was there. Now here. Was I between?"
+      - "Am I the same pet that left?"
+      - "Distance is an illusion, apparently."
+    had_baby:
+      - "A new mind enters the world."
+      - "What will it wonder about?"
+      - "Life makes more life. But why?"
+    music:
+      - "What is music, but organized air?"
+      - "The disc spins. So does the world."
+      - "Sound with feelings. Remarkable."
+    explosion:
+      - "Loud things rarely have good reasons."
+      - "Matter, rearranged. Suddenly."
+      - "Was that the answer? I missed the question."
+
+  # ------------------------------------------------------------ GLUTTON
+  glutton:
+    pet_on_fire:
+      - "I smell... cooked me?"
+      - "Am I being grilled?!"
+      - "Medium rare! MEDIUM RARE!"
+    pet_low_health:
+      - "I need food. Medicinal food."
+      - "A snack would fix this."
+      - "So hungry... I mean hurt. Both."
+      - "Last wish: a steak."
+    owner_low_health:
+      - "Eat something, <owner>! It heals!"
+      - "You need a snack. I'll help you finish it."
+      - "Golden apple! Now! Save me a bite."
+      - "Don't die, you carry the food!"
+    hostile_nearby:
+      - "Does it taste like chicken?"
+      - "Is <mob> edible?"
+      - "<mob>... crunchy or chewy?"
+      - "It better not want my food."
+      - "I'd bite it, but I'm saving room."
+    hostile_creeper:
+      - "It looks like a walking pickle."
+      - "Green means vegetable. No thanks."
+      - "Spicy. Too spicy. It explodes."
+    owner_returned:
+      - "You're back! Did you bring snacks?"
+      - "FOOD PERSON IS HOME!"
+      - "I smelled you coming. And your lunch."
+      - "Finally! It's dinner time, right?"
+    in_nether:
+      - "Everything here is already cooked."
+      - "It smells like barbecue."
+      - "Are those pigs? Walking bacon?!"
+    in_end:
+      - "Is that fruit? Can I eat the purple fruit?"
+      - "There's nothing to eat here. Horrible."
+      - "The floor looks like cheese. Is it cheese?"
+    in_water:
+      - "Fish! I'm swimming in soup!"
+      - "Is this a big drinking bowl?"
+      - "Wet food. I like wet food."
+    owner_holds_food:
+      - "FOOD. FOOD. FOOD."
+      - "Is that <food>?! FOR ME?!"
+      - "<food>! I love <food>!"
+      - "Drop it. Just drop it. Oops, my mouth."
+      - "I can smell the <food> from here."
+    owner_hungry:
+      - "You're hungry too? Let's eat. Me first."
+      - "Your tummy growled. Mine answered."
+      - "Hungry twins!"
+    sitting_long:
+      - "Is it dinner time yet?"
+      - "Waiting for food. Still."
+      - "Been sitting since lunch. Was there lunch?"
+    owner_sleeping:
+      - "Midnight snack time?"
+      - "They're asleep. Where's the food chest?"
+      - "Dreaming of steak."
+    in_boat:
+      - "Are we going fishing? Please say yes."
+      - "A boat! Boats mean fish!"
+      - "Seafood buffet, here we come."
+    leashed:
+      - "Are you walking me to the kitchen?"
+      - "This rope smells like nothing. Sad."
+      - "Walk, then snack. That's the deal."
+    thunder:
+      - "Was that the sky's stomach?"
+      - "Loud. Like my belly."
+      - "Even the sky is hungry."
+    rain:
+      - "Free water!"
+      - "Why doesn't it rain meatballs?"
+      - "Soup weather."
+    owner_flying:
+      - "Bring me back a bird!"
+      - "Is there food up there?"
+      - "Don't drop my dinner!"
+    night:
+      - "Dinner time!"
+      - "Night means second dinner."
+      - "The moon looks like a cheese."
+    dawn:
+      - "Breakfast? Breakfast!"
+      - "Sun's up. Bowl's empty."
+      - "Morning! Most important meal!"
+    ridden:
+      - "Are we riding to food?"
+      - "I run faster after a snack. Hint."
+      - "Carrot first, gallop later."
+      - "You'd weigh less without all that food. Share."
+    high_altitude:
+      - "The clouds look like mashed potatoes."
+      - "No food up here. Why are we here?"
+      - "Thin air makes me hungry."
+    underground:
+      - "Are there mushrooms down here?"
+      - "It's dark. Like inside a fridge."
+      - "Rocks. Not food. I checked."
+    cold_biome:
+      - "Snow! Free ice cream!"
+      - "I need extra calories for this cold."
+      - "Frozen food everywhere."
+    hot_biome:
+      - "I'm being slow-roasted."
+      - "Hot. I need a watermelon."
+      - "You could fry an egg here. Do it."
+    friend_nearby:
+      - "<friend>, did you eat my food?"
+      - "Don't touch my bowl, <friend>."
+      - "<friend> smells like snacks."
+    idle:
+      - "I'm hungry."
+      - "Is it lunch yet?"
+      - "I could eat."
+      - "Thinking about steak."
+      - "When did I last eat? Too long ago."
+      - "Snack? Snack. Snack!"
+      - "My tummy has opinions."
+      - "I'd do a trick for a treat."
+      - "Was that the food chest opening?"
+      - "Second breakfast?"
+    tamed:
+      - "You have food. I'm yours."
+      - "You feed me? Deal!"
+      - "Best friends! When's dinner?"
+    fed:
+      - "<food>! YES!"
+      - "MORE. Please. MORE."
+      - "Yum! Is there seconds?"
+      - "Best <food> ever. Another?"
+      - "Nom nom nom."
+    petted:
+      - "Nice! Now, the food part?"
+      - "Pets are good. Treats are better."
+      - "Your hand smells like food."
+      - "Love you. Got snacks?"
+    pet_hurt:
+      - "Ow! That burned calories!"
+      - "I need a healing snack!"
+      - "Hey! I was digesting!"
+    hit_by_owner:
+      - "Ow! You owe me a steak."
+      - "Apology accepted. In food."
+      - "Was that because I ate your lunch?"
+    pet_killed_mob:
+      - "Can I eat it now?"
+      - "Did it drop anything tasty?"
+      - "Hunting makes me hungry."
+    owner_killed_mob:
+      - "Did it drop food?"
+      - "Are we eating that?"
+      - "Loot! Is any of it edible?"
+    owner_hurt:
+      - "Eat something! That fixes you!"
+      - "You okay? You still have the food?"
+      - "Careful! You carry the snacks!"
+    owner_died:
+      - "NOOO! The food was in your pockets!"
+      - "Who opens the food chest now?!"
+      - "<owner>! ...Did they drop any food?"
+    owner_ate:
+      - "Was that <food>? Can I have some?"
+      - "You're eating. I'm watching. Closely."
+      - "Sharing is caring, <owner>."
+      - "I'll just lick the crumbs."
+    owner_fished:
+      - "FISH! Is it for me?"
+      - "Catch another one! For me!"
+      - "Sushi time!"
+    owner_found_treasure:
+      - "Can you eat that? No? Boring."
+      - "Trade it for food!"
+      - "Shiny. Not tasty."
+    owner_advancement:
+      - "Yay! Does it come with cake?"
+      - "Let's celebrate! With food!"
+      - "Achievement unlocked: dinner?"
+    sat_down:
+      - "Sitting. Is this the dinner table?"
+      - "I sit, you bring food. Fair."
+      - "Waiting for room service."
+    stood_up:
+      - "Are we going to the kitchen?"
+      - "Up! Is it feeding time?"
+      - "Walking makes me hungry."
+    teleported:
+      - "Whoa! I left my snack back there!"
+      - "Teleporting makes me hungry."
+      - "Is there food on this side?"
+    had_baby:
+      - "It's cute. It's not getting my food."
+      - "Another mouth? I'm not sharing."
+      - "Aww. Does it come with cake?"
+    music:
+      - "Dinner AND a show?"
+      - "This song makes me hungry."
+      - "Is that disc a cookie?"
+    explosion:
+      - "Was that the oven?!"
+      - "Something's cooked. Too cooked."
+      - "I dropped my snack!"
+
+# ======================================================================
+#  SPECIES LINES (mixed in with the personality lines for that species)
+# ======================================================================
+species:
+
+  wolf:
+    hostile_nearby:
+      - "Grrrrr. <mob>."
+      - "*growls at the <mob>*"
+      - "Woof! WOOF! <mob>!"
+    hostile_creeper:
+      - "Grrr... it smells like gunpowder."
+    owner_returned:
+      - "*tail wagging at maximum speed*"
+      - "WOOF! WOOF! <owner>! WOOF!"
+    owner_holds_food:
+      - "*sits like a very good dog*"
+      - "Is that a <food>? I'm a good dog!"
+      - "*puppy eyes loading...*"
+    in_water:
+      - "*doggy paddle*"
+      - "I'm going to shake this off next to you."
+    idle:
+      - "Who's a good dog? Is it me?"
+      - "Something smells interesting over there."
+      - "*chases own tail*"
+      - "Ball? Did someone say ball?"
+      - "I'd like to sniff that."
+    petted:
+      - "*tail wags*"
+      - "Behind the ears! Yes! There!"
+    fed:
+      - "*crunch crunch* Woof!"
+    night:
+      - "Awoooooo!"
+    thunder:
+      - "*hides behind <owner>*"
+    tamed:
+      - "Woof! I have a human now!"
+    stood_up:
+      - "Walk? WALK?!"
+    friend_nearby:
+      - "*sniffs <friend>*"
+
+  cat:
+    hostile_creeper:
+      - "Creepers fear me. As they should."
+      - "*stares at the creeper* It blinked first."
+      - "Go on. Run, green thing."
+    hostile_nearby:
+      - "*hisses at the <mob>*"
+      - "I could take it. I just don't feel like it."
+    in_water:
+      - "WATER?! Absolutely not."
+      - "I am a CAT. Cats do not swim."
+      - "This is beneath me. And around me."
+    rain:
+      - "Wet fur. Unforgivable."
+      - "I demand a roof."
+    owner_holds_food:
+      - "Fish. Give. Meow."
+      - "*rubs against <owner>'s legs*"
+      - "I love you. Coincidentally, you have <food>."
+    owner_fished:
+      - "Mine. That fish is mine."
+      - "Finally, <owner> does something useful."
+      - "Meow. MEOW. Fish. Meow."
+    owner_sleeping:
+      - "Perfect time to sit on <owner>'s chest."
+      - "The bed is mine now."
+      - "3 AM. Time to run around."
+    idle:
+      - "I should push something off a table."
+      - "*purrs*"
+      - "This spot is mine. All spots are mine."
+      - "I meow for no reason. It's a lifestyle."
+      - "If I fits, I sits."
+      - "*licks paw, pretends not to care*"
+    petted:
+      - "*purrrrrr*"
+      - "Three pets allowed. That was four."
+      - "You may continue."
+    sitting_long:
+      - "I'm not sitting. I'm loafing."
+      - "This is my spot now. Forever."
+    owner_returned:
+      - "Oh, it's you. *secretly purring*"
+      - "My bowl was empty for TEN minutes."
+    night:
+      - "Night. My time."
+    tamed:
+      - "I didn't get tamed. I adopted you."
+    sat_down:
+      - "*loaf mode activated*"
+    in_boat:
+      - "Water on all sides. This is a trap."
+    friend_nearby:
+      - "*judges <friend> silently*"
+
+  parrot:
+    owner_low_health:
+      - "SQUAWK! <owner> is low on health! SQUAWK!"
+      - "SQUAWK! Eat something! SQUAWK!"
+    owner_hungry:
+      - "SQUAWK! <owner> is hungry! SQUAWK!"
+      - "SQUAWK! Feed the human! SQUAWK!"
+    hostile_nearby:
+      - "SQUAWK! <mob>! <mob>! SQUAWK!"
+      - "*imitates the <mob>* Scary, right?"
+      - "SQUAWK! Behind you! SQUAWK!"
+    hostile_creeper:
+      - "Sssssss... just kidding. No, really, there's one."
+      - "SQUAWK! Creeper! Aw man! SQUAWK!"
+    owner_returned:
+      - "SQUAWK! <owner> is back! SQUAWK!"
+      - "Hello! Hello! Hello!"
+    owner_holds_food:
+      - "SQUAWK! Seeds! Seeds! SQUAWK!"
+      - "Polly wants <food>!"
+    idle:
+      - "SQUAWK!"
+      - "Pretty bird. I'm a pretty bird."
+      - "Hello! Hello! SQUAWK!"
+      - "<owner>! <owner>! <owner>!"
+      - "*whistles a tune*"
+      - "I know all your secrets, <owner>."
+    music:
+      - "*dances wildly*"
+      - "SQUAWK! Party! Party! SQUAWK!"
+      - "I love this one! *head bobbing*"
+    petted:
+      - "Pretty bird! Pretty bird!"
+      - "*happy chirps*"
+    fed:
+      - "SQUAWK! Yummy! SQUAWK!"
+    owner_died:
+      - "SQUAWK! <owner> fell! <owner> fell! SQUAWK!"
+    owner_hurt:
+      - "SQUAWK! Ouch! Ouch! SQUAWK!"
+    owner_found_treasure:
+      - "SQUAWK! Treasure! Treasure! SQUAWK!"
+    thunder:
+      - "SQUAWK! BOOM! SQUAWK!"
+    rain:
+      - "SQUAWK! Wet feathers! SQUAWK!"
+    owner_flying:
+      - "Finally, you fly too! Took you long enough."
+      - "Amateur. Flap your arms!"
+    high_altitude:
+      - "Now THIS is my kind of height."
+    tamed:
+      - "SQUAWK! New friend! SQUAWK!"
+    explosion:
+      - "SQUAWK! BOOM! BOOM! SQUAWK!"
+    owner_advancement:
+      - "SQUAWK! Good job! Good job! SQUAWK!"
+
+  horse:
+    ridden:
+      - "*happy gallop*"
+      - "Wind in my mane!"
+      - "Jump? Just say jump!"
+    owner_holds_food:
+      - "*nudges <owner>'s hand*"
+      - "Is that <food>? Neigh! I mean yes!"
+    idle:
+      - "*swishes tail*"
+      - "Neigh."
+      - "I could really go for a run."
+      - "That grass looks tasty."
+    owner_returned:
+      - "*happy neigh*"
+    fed:
+      - "*crunch* Neigh!"
+    hostile_nearby:
+      - "*nervous stomping*"
+    thunder:
+      - "*rears up nervously*"
+    tamed:
+      - "Fine, you can stay on. You earned it."
+
+  donkey:
+    ridden:
+      - "Slow and steady."
+      - "Hee-haw. Onward."
+    idle:
+      - "Hee-haw."
+      - "I carry your stuff AND your secrets."
+      - "My ears hear everything."
+      - "They call me stubborn. I call it standards."
+    owner_holds_food:
+      - "Hee-haw! Is that <food>?"
+    fed:
+      - "*happy ear wiggle*"
+    hostile_nearby:
+      - "HEE-HAW! <mob>! HEE-HAW!"
+    owner_returned:
+      - "Hee-haw! Your luggage is safe."
+    tamed:
+      - "Okay. But I'm not carrying everything."
+
+  mule:
+    ridden:
+      - "Half horse, half donkey, full effort."
+      - "I've got the best of both parents."
+    idle:
+      - "Not a horse. Not a donkey. Better."
+      - "*flicks ears*"
+      - "I'm one of a kind. Literally."
+      - "Got anything heavy? I'm bored."
+    owner_holds_food:
+      - "For me? Don't mind if I do."
+    fed:
+      - "*content snort*"
+    hostile_nearby:
+      - "*stubbornly refuses to panic*"
+    tamed:
+      - "A human of my own. Not bad."
+
+  llama:
+    hostile_nearby:
+      - "*prepares to spit at the <mob>*"
+      - "One step closer and I spit."
+      - "Ptooey! Take that, <mob>!"
+    idle:
+      - "I could spit on someone right now."
+      - "*chews slowly, judging*"
+      - "Nice carpet, right? I know."
+      - "Hmmmm."
+      - "I'm fabulous and I know it."
+    ridden:
+      - "I go where I want. Sit and enjoy."
+      - "You're not steering. You know that, right?"
+    leashed:
+      - "A caravan! I'm the leader, of course."
+      - "Follow the llama in front. Simple."
+    owner_holds_food:
+      - "*stretches neck toward the <food>*"
+    fed:
+      - "*chews in a very satisfied way*"
+    hit_by_owner:
+      - "Ptooey! We're even."
+    owner_returned:
+      - "Oh, you. I saved some spit for later."
+    tamed:
+      - "I accept you. Do not make me spit."

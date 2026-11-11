@@ -1,0 +1,14 @@
+.gradle/
+build/
+out/
+.idea/
+*.iml
+.vscode/
+run/
+run-*/
+.DS_Store
+posts/
+
+# Internal docs (private)
+docs/specs/
+docs/PUBLICAR.md

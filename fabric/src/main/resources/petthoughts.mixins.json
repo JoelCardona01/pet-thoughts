@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "dev.petthoughts.fabric.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "AbstractHorseMixin",
+    "AnimalMixin",
+    "DisplayInvoker",
+    "EntityMixin",
+    "FishingHookMixin",
+    "PlayerAdvancementsMixin",
+    "ServerExplosionMixin",
+    "ServerGamePacketListenerImplMixin",
+    "ServerPlayerMixin",
+    "TamableAnimalMixin",
+    "TextDisplayInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

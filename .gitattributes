@@ -1,0 +1,7 @@
+# Keep LF in the repository (the CI build runs on Linux; gradlew must not get CRLF).
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.png binary
+*.gif binary
+*.mp4 binary

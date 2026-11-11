@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "petthoughts",
+  "version": "${version}",
+  "name": "Pet Thoughts",
+  "description": "Tamed pets show thought bubbles that react to the world. Every pet gets a personality. Works in single player and on servers (no client mod needed).",
+  "authors": [
+    "Joel Cardona"
+  ],
+  "contact": {
+    "homepage": "https://github.com/JoelCardona01/pet-thoughts",
+    "sources": "https://github.com/JoelCardona01/pet-thoughts",
+    "issues": "https://github.com/JoelCardona01/pet-thoughts/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/petthoughts/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.petthoughts.fabric.PetThoughtsMod"
+    ]
+  },
+  "mixins": [
+    "petthoughts.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

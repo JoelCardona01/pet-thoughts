@@ -1,0 +1,123 @@
+# ----------------------------------------------------------------------
+#  Pet Thoughts - config.yml
+#  Reload with /petthoughts reload. Every line the pets say lives in
+#  lang/<language>.yml and can be edited freely.
+# ----------------------------------------------------------------------
+
+# Language file to use (lang/en.yml, lang/es.yml, or your own lang/xx.yml).
+language: en
+
+# Who sees the bubbles: "all" (everyone nearby) or "owner" (only the pet's owner).
+visibility: all
+
+# ---------------------------- How often ------------------------------
+
+# Global multiplier for ambient chatter. 0.5 = half as many bubbles, 2.0 = twice as many.
+frequency: 1.0
+
+# How long a bubble stays visible, in seconds.
+display-seconds: 4
+
+# After a pet thinks something, it stays quiet for a random time between
+# these two values (seconds). Danger and direct reactions are not affected.
+min-interval: 30
+max-interval: 75
+
+# Chance (0-1) that a pet with nothing special going on thinks something
+# random each time it is checked (every 2 seconds, once its interval is over).
+idle-chance: 0.12
+
+# Hard limit of bubbles visible at once around one player.
+max-bubbles-per-player: 3
+
+# Minimum seconds between two ambient bubbles around the same player,
+# no matter how many pets they own.
+owner-min-gap: 4
+
+# When several pets of the same owner notice the same thing (a zombie,
+# the rain...), only this many of them comment on it.
+max-same-reaction: 2
+
+# Cooldown (seconds) of danger / health thoughts for each pet.
+urgent-cooldown: 15
+
+# Minimum seconds between two reactions (being fed, petted...) of the same pet.
+reaction-gap: 5
+
+# Pets only think when their owner is within this many blocks.
+owner-range: 24
+
+# Chance (0-1) of using a species-specific line (parrots squawking, cats
+# being cats...) instead of the personality line, when one exists.
+species-line-chance: 0.35
+
+# ----------------------------- Petting -------------------------------
+
+# Two ways to pet one of your own pets (hearts + a happy thought):
+#   swap-key:    look at the pet and press the "swap hands" key (F by default).
+#                Works with anything in your hands and on every species.
+#   sneak-click: sneak + right click the pet with an empty hand.
+#                (Not on horses, donkeys, mules and llamas: that opens their inventory.)
+petting:
+  enabled: true
+  swap-key: true
+  sneak-click: true
+  hearts: true
+# --------------------------- Bubble style ----------------------------
+
+bubble-style:
+  scale: 1.0
+  line-width: 150           # long thoughts wrap after this many pixels
+  tail: true                # thought dots (or a speech pointer for danger)
+  animation: true           # pop in, float, shake when scared
+  see-through: false        # true = visible through walls
+  view-range: 32            # blocks
+  # Colours of each kind of thought: fill, outline and text.
+  colors:
+    thought:
+      fill: "#FFFFFF"
+      outline: "#3B3347"
+      text: "#2B2533"
+    love:
+      fill: "#FFF0F4"
+      outline: "#B53A63"
+      text: "#3D2030"
+    food:
+      fill: "#FFF6E2"
+      outline: "#9C5D2C"
+      text: "#3B2617"
+    danger:
+      fill: "#FFEDEA"
+      outline: "#C0392B"
+      text: "#3D1512"
+
+# ------------------------------ Pets ---------------------------------
+
+species:
+  wolf: true
+  cat: true
+  parrot: true
+  horse: true
+  donkey: true
+  mule: true
+  llama: true
+
+# Relative chance of each personality when a pet is tamed.
+personality-weights:
+  loyal: 30
+  drama: 20
+  grumpy: 20
+  philosopher: 15
+  glutton: 15
+
+# ----------------------------- Disable -------------------------------
+
+# Log every thought to the console (pet, trigger, line). Handy while tuning the frequency.
+debug: false
+
+# Trigger ids that should never produce a thought, e.g. [night, rain, idle].
+# Full list: /petthoughts test <tab>
+disabled-triggers: []
+
+# Worlds where pets keep their thoughts to themselves.
+disabled-worlds: []
