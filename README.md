@@ -10,6 +10,8 @@ Tamed pets show little thought bubbles that react to what happens around them, a
 >
 > 🇪🇸 Disponible en español (`language: es`).
 
+**⬇ [Download the latest release](https://github.com/JoelCardona01/pet-thoughts/releases/latest)**
+
 ## ✨ Features
 
 - 💭 Comic-style thought bubbles above **wolves, cats, parrots, horses, donkeys, mules and llamas**: a colour for each mood, a speech pointer and a shake when they are scared, a little pop when they appear
