@@ -14,4 +14,6 @@ rootProject.name = "pet-thoughts"
 // neoforge: the NeoForge mod   -> neoforge/build/libs/pet-thoughts-neoforge-<version>.jar
 // forge:    the Forge mod      -> forge/build/libs/pet-thoughts-forge-<version>.jar
 // shared/ is not a project: it holds the sources that the NeoForge and Forge mods have in common.
-include("common", "paper", "fabric", "neoforge", "forge")
+// Backport branch for Minecraft 26.1.2: only the Fabric and NeoForge mods are built here.
+// The Paper plugin (one jar for every version) and the Forge mod are built from main.
+include("common", "fabric", "neoforge")
