@@ -4,9 +4,9 @@
 
 ![Pet Thoughts](docs/media/hero.gif)
 
-Tamed pets show little thought bubbles that react to what happens around them, and every pet gets its own personality. Available as a **Paper plugin** (servers) and as a **Fabric mod** (single player and Fabric servers).
+Tamed pets show little thought bubbles that react to what happens around them, and every pet gets its own personality. Available as a **Paper plugin** (servers) and as a mod for **Fabric**, **NeoForge** and **Forge** (single player and modded servers).
 
-> ✅ **No client mods required** for the plugin. The Fabric mod is server-side too: in single player you just install it, on a server your friends can join with a vanilla client.
+> ✅ **No client mods required** for the plugin. The mods are server-side too: in single player you just install one, on a server your friends can join with a vanilla client.
 >
 > 🇪🇸 Disponible en español (`language: es`).
 
@@ -49,9 +49,11 @@ Every pet gets one when it is tamed (or the first time the plugin sees it). Exam
 | You have... | Download | Put it in |
 |---|---|---|
 | A **Paper / Purpur / Folia** server (1.21.4 – 26.x) | `PetThoughts-x.y.z.jar` | `plugins/` |
-| **Single player** or a **Fabric** server (26.3) | `pet-thoughts-fabric-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api) | `mods/` |
+| **Single player** or a server with **Fabric** (26.3) | `pet-thoughts-fabric-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api) | `mods/` |
+| **Single player** or a server with **NeoForge** (26.3) | `pet-thoughts-neoforge-x.y.z.jar` | `mods/` |
+| **Single player** or a server with **Forge** (26.3) | `pet-thoughts-forge-x.y.z.jar` | `mods/` |
 
-Both do exactly the same: they share the same brain, lines and config.
+Pick the one that matches your mod loader (only one). They all do exactly the same: they share the same brain, lines and config.
 
 ## ⌨ Commands & permissions
 
@@ -67,11 +69,11 @@ Alias: `/pt`.
 | `/petthoughts test <trigger>` | `petthoughts.admin` | op | Force a thought |
 | `/petthoughts reload` | `petthoughts.admin` | op | Reload config and language |
 
-On Fabric there is no permission plugin: player features are open to everyone, admin commands need operator level 2 (or being the host of a single-player world).
+On the mods (Fabric, NeoForge, Forge) there is no permission plugin: player features are open to everyone, admin commands need operator level 2 (or being the host of a single-player world).
 
 ## ⚙ Configuration
 
-`plugins/PetThoughts/config.yml` (plugin) or `config/petthoughts/config.yml` (mod):
+`plugins/PetThoughts/config.yml` (plugin) or `config/petthoughts/config.yml` (mods):
 
 ```yaml
 language: en               # en | es | your own lang/xx.yml
@@ -104,7 +106,7 @@ Every line the pets say lives in `lang/en.yml` / `lang/es.yml`. Add, change or d
 ## 🧩 Compatibility
 
 - **Plugin:** Paper, Purpur and Folia, 1.21.4 to 26.x (Java 21+). No dependencies.
-- **Mod:** Fabric 26.3 (Java 25) + Fabric API. Works with vanilla clients.
+- **Mods:** Minecraft 26.3 (Java 25). Fabric needs Fabric API; NeoForge and Forge need nothing else. They work with vanilla clients.
 - Bubbles are built from vanilla Text Displays (one for the text, a few for the frame and tail): no resource pack, no client mod.
 
 ## 🛠 Building
@@ -113,12 +115,15 @@ Every line the pets say lives in `lang/en.yml` / `lang/es.yml`. Add, change or d
 ./gradlew build
 ```
 
-Needs JDK 25. Output: `paper/build/libs/PetThoughts-*.jar` and `fabric/build/libs/pet-thoughts-fabric-*.jar`.
+Needs JDK 25. Output: `paper/build/libs/PetThoughts-*.jar` and one mod jar per loader in `fabric/build/libs/`, `neoforge/build/libs/` and `forge/build/libs/`.
 
 ```
-common/   platform-independent brain: triggers, anti-spam, config, language files
-paper/    Paper/Folia plugin (Bukkit events -> common)
-fabric/   Fabric mod (Fabric events + mixins -> common)
+common/    platform-independent brain: triggers, anti-spam, config, language files
+paper/     Paper/Folia plugin (Bukkit events -> common)
+fabric/    Fabric mod (Fabric events + mixins -> common)
+shared/    the mod for NeoForge and Forge: everything that only needs vanilla classes (+ mixins -> common)
+neoforge/  NeoForge entry point (NeoForge events -> shared)
+forge/     Forge entry point (Forge events -> shared)
 ```
 
 ## 💬 Support

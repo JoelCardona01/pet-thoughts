@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'feature/**' ]
     tags: [ 'v*' ]
   pull_request:
 
@@ -22,7 +22,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - name: Build plugin and mod
+      - name: Build plugin and mods
         run: ./gradlew build
 
       - name: Upload jars
@@ -32,9 +32,11 @@ jobs:
           path: |
             paper/build/libs/PetThoughts-*.jar
             fabric/build/libs/pet-thoughts-fabric-*.jar
+            neoforge/build/libs/pet-thoughts-neoforge-*.jar
+            forge/build/libs/pet-thoughts-forge-*.jar
             !**/*-sources.jar
 
-      # Pushing a tag like v1.0.0 creates a GitHub Release with both jars attached.
+      # Pushing a tag like v1.0.0 creates a GitHub Release with all the jars attached.
       - name: Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
@@ -42,4 +44,6 @@ jobs:
           files: |
             paper/build/libs/PetThoughts-*.jar
             fabric/build/libs/pet-thoughts-fabric-*.jar
+            neoforge/build/libs/pet-thoughts-neoforge-*.jar
+            forge/build/libs/pet-thoughts-forge-*.jar
           generate_release_notes: true

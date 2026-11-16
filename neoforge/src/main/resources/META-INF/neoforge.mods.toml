@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+issueTrackerURL="https://github.com/JoelCardona01/pet-thoughts/issues"
+
+[[mods]]
+modId="petthoughts"
+version="${version}"
+displayName="Pet Thoughts"
+displayURL="https://github.com/JoelCardona01/pet-thoughts"
+logoFile="icon.png"
+authors="Joel Cardona"
+description='''Tamed pets show thought bubbles that react to the world. Every pet gets a personality. Works in single player and on servers (no client mod needed).'''
+
+[[mixins]]
+config="petthoughts.mixins.json"
+
+[[dependencies.petthoughts]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.petthoughts]]
+    modId="minecraft"
+    type="required"
+    versionRange="[${minecraft_version}]"
+    ordering="NONE"
+    side="BOTH"

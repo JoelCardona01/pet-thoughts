@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "dev.petthoughts.mod.mixin",
+  "mixins": [
+    "AbstractHorseMixin",
+    "AnimalMixin",
+    "DisplayInvoker",
+    "EntityMixin",
+    "FishingHookMixin",
+    "PlayerAdvancementsMixin",
+    "ServerExplosionMixin",
+    "ServerGamePacketListenerImplMixin",
+    "ServerPlayerMixin",
+    "TamableAnimalMixin",
+    "TextDisplayInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
