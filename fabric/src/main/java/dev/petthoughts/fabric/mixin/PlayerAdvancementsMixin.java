@@ -25,7 +25,7 @@ public abstract class PlayerAdvancementsMixin {
     @Inject(method = "award", at = @At("RETURN"))
     private void petthoughts$advancement(AdvancementHolder advancement, String criterion, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue() && getOrStartProgress(advancement).isDone()
-                && advancement.value().display().map(DisplayInfo::announceToChat).orElse(false)) {
+                && advancement.value().display().map(DisplayInfo::shouldAnnounceChat).orElse(false)) {
             FabricEvents.onAdvancement(player);
         }
     }

@@ -19,7 +19,7 @@ import net.minecraft.util.Brightness;
 import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -182,12 +182,12 @@ final class FabricBubbles {
     }
 
     private static Display.TextDisplay create(ServerLevel level, LivingEntity pet, Settings settings) {
-        Display.TextDisplay display = EntityTypes.TEXT_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
+        Display.TextDisplay display = EntityType.TEXT_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
         if (display == null) {
             return null;
         }
         display.addTag(TAG);
-        display.setPermanentlyInvulnerable(true);
+        display.setInvulnerable(true);
         display.snapTo(pet.getX(), pet.getY(), pet.getZ(), 0f, 0f);
         ((TextDisplayInvoker) display).petthoughts$setFlags(settings.seeThrough ? Display.TextDisplay.FLAG_SEE_THROUGH : 0);
         DisplayInvoker base = (DisplayInvoker) display;
