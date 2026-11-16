@@ -187,7 +187,7 @@ final class FabricBubbles {
             return null;
         }
         display.addTag(TAG);
-        display.setPermanentlyInvulnerable(true);
+        display.setInvulnerable(true);
         display.snapTo(pet.getX(), pet.getY(), pet.getZ(), 0f, 0f);
         ((TextDisplayInvoker) display).petthoughts$setFlags(settings.seeThrough ? Display.TextDisplay.FLAG_SEE_THROUGH : 0);
         DisplayInvoker base = (DisplayInvoker) display;
