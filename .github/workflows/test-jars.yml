@@ -1,0 +1,101 @@
+name: Test jars (temporary)
+
+# Temporary: builds the backport mods and gathers what is needed to run them in the
+# official launcher (Fabric API, Fabric loader profile, NeoForge client install),
+# and commits the result to this branch. The branch is deleted after testing.
+
+on:
+  push:
+    branches: [ 'test/backport-jars' ]
+    paths: [ '.github/workflows/test-jars.yml' ]
+
+permissions:
+  contents: write
+
+jobs:
+  gather:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Build and gather
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$PWD/out"
+          mkdir -p "$OUT"
+          gather() {
+            local branch=$1 mc=$2 loader=$3 api=$4 neo=$5
+            local dir="$OUT/$mc"
+            mkdir -p "$dir/mods-fabric" "$dir/mods-neoforge" "$dir/fabric-version" "$dir/neoforge-install"
+
+            git worktree add -f "/tmp/src-$mc" "origin/$branch"
+            (cd "/tmp/src-$mc" && ./gradlew --no-daemon build -x test)
+            cp /tmp/src-$mc/fabric/build/libs/pet-thoughts-fabric-*.jar "$dir/mods-fabric/"
+            cp /tmp/src-$mc/neoforge/build/libs/pet-thoughts-neoforge-*.jar "$dir/mods-neoforge/"
+            rm -f "$dir"/mods-*/*-sources.jar
+
+            curl -fsSL -o "$dir/mods-fabric/fabric-api-$api.jar" \
+              "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/$api/fabric-api-$api.jar"
+            curl -fsSL -o "$dir/fabric-version/profile.json" \
+              "https://meta.fabricmc.net/v2/versions/loader/$mc/$loader/profile/json"
+
+            # NeoForge: run the installer headless into an empty launcher dir, then keep only
+            # what the official launcher cannot download by itself (no download URL).
+            local mcdir="/tmp/mc-$mc"
+            mkdir -p "$mcdir"
+            echo '{"profiles":{}}' > "$mcdir/launcher_profiles.json"
+            curl -fsSL -o "/tmp/neo-$mc.jar" \
+              "https://maven.neoforged.net/releases/net/neoforged/neoforge/$neo/neoforge-$neo-installer.jar"
+            (cd /tmp && java -jar "/tmp/neo-$mc.jar" --install-client "$mcdir")
+            cp -r "$mcdir/versions/neoforge-$neo" "$dir/neoforge-install/"
+            python3 - "$mcdir" "$neo" "$dir/neoforge-install" <<'PY'
+          import json, os, shutil, sys
+          mcdir, neo, dest = sys.argv[1:4]
+          with open(os.path.join(mcdir, "versions", f"neoforge-{neo}", f"neoforge-{neo}.json")) as f:
+              version = json.load(f)
+          downloadable = set()
+          for lib in version.get("libraries", []):
+              art = lib.get("downloads", {}).get("artifact")
+              if art and art.get("url"):
+                  downloadable.add(art["path"])
+          libs = os.path.join(mcdir, "libraries")
+          kept = 0
+          for root, _, files in os.walk(libs):
+              for name in files:
+                  rel = os.path.relpath(os.path.join(root, name), libs).replace(os.sep, "/")
+                  if rel in downloadable or rel.startswith(("com/mojang/", "org/lwjgl/")):
+                      continue
+                  if not (rel.startswith("net/neoforged/") or rel.startswith("net/minecraft/")):
+                      continue
+                  target = os.path.join(dest, "libraries", rel)
+                  os.makedirs(os.path.dirname(target), exist_ok=True)
+                  shutil.copy2(os.path.join(root, name), target)
+                  kept += 1
+          print(f"kept {kept} library files")
+          PY
+            du -sh "$dir"/*
+            find "$dir" -type f -size +90M -print -delete
+          }
+          gather backport/26.2 26.2   0.19.3 0.161.0+26.2   26.2.0.93
+          gather backport/26.1 26.1.2 0.18.4 0.155.3+26.1.2 26.1.2.126
+          find out -type f | sort
+          du -sh out
+
+      - name: Commit the files to this branch
+        shell: bash
+        run: |
+          git config user.name "JoelCardona01"
+          git config user.email "98324428+JoelCardona01@users.noreply.github.com"
+          git add -f out
+          git commit -q -m "Test jars for the 26.2 and 26.1.2 backports (temporary)"
+          git push origin HEAD:test/backport-jars
