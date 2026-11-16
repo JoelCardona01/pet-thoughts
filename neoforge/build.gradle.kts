@@ -52,7 +52,7 @@ tasks.processResources {
     val props = mapOf(
         "version" to project.version,
         "minecraft_version" to project.property("minecraft_version"),
-        "neo_version" to project.property("neo_version"),
+        "neo_min_version" to project.property("neo_min_version"),
     )
     inputs.properties(props)
     filteringCharset = "UTF-8"

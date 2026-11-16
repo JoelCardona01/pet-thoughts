@@ -1,5 +1,7 @@
 # 💭 Pet Thoughts
 
+> 🔙 **Backport branch for Minecraft 26.2.** It builds the Fabric and NeoForge mods for 26.2. The newest version, the Paper plugin and the Forge mod live on [`main`](https://github.com/JoelCardona01/pet-thoughts).
+
 **Ever wondered what your dog is thinking? Now you know.**
 
 ![Pet Thoughts](docs/media/hero.gif)
@@ -49,9 +51,8 @@ Every pet gets one when it is tamed (or the first time the plugin sees it). Exam
 | You have... | Download | Put it in |
 |---|---|---|
 | A **Paper / Purpur / Folia** server (1.21.4 – 26.x) | `PetThoughts-x.y.z.jar` | `plugins/` |
-| **Single player** or a server with **Fabric** (26.3) | `pet-thoughts-fabric-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api) | `mods/` |
-| **Single player** or a server with **NeoForge** (26.3) | `pet-thoughts-neoforge-x.y.z.jar` | `mods/` |
-| **Single player** or a server with **Forge** (26.3) | `pet-thoughts-forge-x.y.z.jar` | `mods/` |
+| **Single player** or a server with **Fabric** (26.2) | `pet-thoughts-fabric-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api) | `mods/` |
+| **Single player** or a server with **NeoForge** (26.2) | `pet-thoughts-neoforge-x.y.z.jar` | `mods/` |
 
 Pick the one that matches your mod loader (only one). They all do exactly the same: they share the same brain, lines and config.
 
@@ -106,7 +107,7 @@ Every line the pets say lives in `lang/en.yml` / `lang/es.yml`. Add, change or d
 ## 🧩 Compatibility
 
 - **Plugin:** Paper, Purpur and Folia, 1.21.4 to 26.x (Java 21+). No dependencies.
-- **Mods:** Minecraft 26.3 (Java 25). Fabric needs Fabric API; NeoForge and Forge need nothing else. They work with vanilla clients.
+- **Mods:** Minecraft 26.2 (Java 25). Fabric needs Fabric API; NeoForge needs nothing else. They work with vanilla clients.
 - Bubbles are built from vanilla Text Displays (one for the text, a few for the frame and tail): no resource pack, no client mod.
 
 ## 🛠 Building
@@ -115,7 +116,7 @@ Every line the pets say lives in `lang/en.yml` / `lang/es.yml`. Add, change or d
 ./gradlew build
 ```
 
-Needs JDK 25. Output: `paper/build/libs/PetThoughts-*.jar` and one mod jar per loader in `fabric/build/libs/`, `neoforge/build/libs/` and `forge/build/libs/`.
+Needs JDK 25. Output: one mod jar per loader in `fabric/build/libs/` and `neoforge/build/libs/`.
 
 ```
 common/    platform-independent brain: triggers, anti-spam, config, language files

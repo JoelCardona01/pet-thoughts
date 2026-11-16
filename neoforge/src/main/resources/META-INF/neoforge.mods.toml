@@ -18,7 +18,7 @@ config="petthoughts.mixins.json"
 [[dependencies.petthoughts]]
     modId="neoforge"
     type="required"
-    versionRange="[${neo_version},)"
+    versionRange="[${neo_min_version},)"
     ordering="NONE"
     side="BOTH"
 

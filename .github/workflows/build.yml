@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [ main, 'feature/**' ]
+    branches: [ main, 'feature/**', 'backport/**' ]
     tags: [ 'v*' ]
   pull_request:
 
@@ -28,12 +28,10 @@ jobs:
       - name: Upload jars
         uses: actions/upload-artifact@v5
         with:
-          name: PetThoughts
+          name: PetThoughts-mc26.2
           path: |
-            paper/build/libs/PetThoughts-*.jar
             fabric/build/libs/pet-thoughts-fabric-*.jar
             neoforge/build/libs/pet-thoughts-neoforge-*.jar
-            forge/build/libs/pet-thoughts-forge-*.jar
             !**/*-sources.jar
 
       # Pushing a tag like v1.0.0 creates a GitHub Release with all the jars attached.
@@ -42,8 +40,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            paper/build/libs/PetThoughts-*.jar
             fabric/build/libs/pet-thoughts-fabric-*.jar
             neoforge/build/libs/pet-thoughts-neoforge-*.jar
-            forge/build/libs/pet-thoughts-forge-*.jar
           generate_release_notes: true
