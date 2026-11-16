@@ -71,3 +71,6 @@ tasks.jar {
 }
 
 evaluationDependsOn(":common")
+
+// Fails the build if a mixin targets something this Minecraft version does not have.
+apply(from = rootProject.file("gradle/verify-mixins.gradle.kts"))
