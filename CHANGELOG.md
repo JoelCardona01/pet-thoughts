@@ -3,10 +3,15 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.1.0] - 2026-11-21
 
 ### Added
 - NeoForge and Forge builds of the mod for Minecraft 26.3 (`pet-thoughts-neoforge-x.y.z.jar`, `pet-thoughts-forge-x.y.z.jar`), with the same features, config and language files as the Fabric mod. Neither needs any other mod. Pet data (personality, mute, `/petthoughts toggle`) is kept in the entity's own saved data.
+- Portuguese (Brazil), French, German, Russian, Polish and Simplified Chinese language files (`pt_br`, `fr`, `de`, `ru`, `pl`, `zh_cn`).
+- `language: auto` (new default): every player gets the language of their game client, which follows the computer's language unless changed in Minecraft. Chat messages use the reader's language, bubbles the owner's. Client languages without a file use the closest one (`es_mx` -> `es`) or the new `fallback-language` (default `en`). Custom `lang/xx.yml` files are picked up automatically.
+
+### Changed
+- Existing `config.yml` files with `language: en` (the old default) are switched to `auto` once, on the first start. Any other language is kept, and `en` set again afterwards is respected.
 
 ## [1.0.0] - 2026-11-11
 

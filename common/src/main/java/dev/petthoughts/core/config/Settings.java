@@ -15,7 +15,10 @@ import java.util.function.Consumer;
 /** Immutable snapshot of config.yml. A reload simply builds a new one. */
 public final class Settings {
 
+    /** A language code, or "auto": each player gets the language of their game client. */
     public final String language;
+    /** Language for the console and for players whose language has no file (with "auto"). */
+    public final String fallbackLanguage;
     public final boolean debug;
     public final boolean ownerOnly;
     public final double frequency;
@@ -58,7 +61,8 @@ public final class Settings {
     private final Set<String> disabledWorlds = new HashSet<>();
 
     public Settings(YamlTree c, Consumer<String> warn) {
-        language = c.string("language", "en").toLowerCase(Locale.ROOT);
+        language = c.string("language", "auto").toLowerCase(Locale.ROOT).replace('-', '_');
+        fallbackLanguage = c.string("fallback-language", "en").toLowerCase(Locale.ROOT).replace('-', '_');
         debug = c.bool("debug", false);
         ownerOnly = "owner".equalsIgnoreCase(c.string("visibility", "all"));
         frequency = clamp(c.number("frequency", 1.0), 0.05, 10.0);

@@ -113,6 +113,17 @@ public final class PetThoughtsPlugin extends JavaPlugin implements Platform {
     }
 
     @Override
+    public LangStore lang(UUID player) {
+        Player online = player == null ? null : Bukkit.getPlayer(player);
+        return lang(online);
+    }
+
+    /** The language of the player's game client (with "language: auto"); the server's for null. */
+    public LangStore lang(Player player) {
+        return files.lang(player == null ? null : player.locale().toString());
+    }
+
+    @Override
     public void log(String message) {
         getLogger().info(message);
     }

@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.petthoughts.core.command.Actor;
 import dev.petthoughts.core.command.Commands;
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.platform.PetView;
 import java.util.Map;
@@ -57,6 +58,11 @@ final class ModCommand {
         }
 
         @Override
+        public LangStore lang() {
+            return mod.lang(player());
+        }
+
+        @Override
         public boolean isPlayer() {
             return source.getPlayer() != null;
         }
@@ -79,9 +85,10 @@ final class ModCommand {
 
         @Override
         public void send(String langKey, Map<String, Object> vars) {
-            Component message = ModText.message(mod.lang(), langKey, vars);
+            LangStore lang = lang();
+            Component message = ModText.message(lang, langKey, vars);
             if (Commands.prefixed(langKey)) {
-                message = Component.empty().append(ModText.message(mod.lang(), "messages.prefix", Map.of())).append(message);
+                message = Component.empty().append(ModText.message(lang, "messages.prefix", Map.of())).append(message);
             }
             source.sendSystemMessage(message);
         }

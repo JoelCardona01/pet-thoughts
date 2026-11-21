@@ -153,7 +153,7 @@ public final class FabricPet implements PetView {
     @Override
     public Component name() {
         Component custom = entity.getCustomName();
-        return custom != null ? custom : Component.literal(mod.lang().raw("species-names." + species.id()));
+        return custom != null ? custom : Component.literal(mod.lang(ownerId()).raw("species-names." + species.id()));
     }
 
     @Override
@@ -302,7 +302,7 @@ public final class FabricPet implements PetView {
                 nearest = other;
             }
         }
-        return nearest == null ? null : new Hostile(nearest instanceof Creeper, FabricText.entityName(mod.lang(), nearest));
+        return nearest == null ? null : new Hostile(nearest instanceof Creeper, FabricText.entityName(mod.lang(ownerId()), nearest));
     }
 
     // ---- attachments ----
