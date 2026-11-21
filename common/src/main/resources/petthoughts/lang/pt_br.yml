@@ -1,0 +1,1466 @@
+# ----------------------------------------------------------------------
+#  Pet Thoughts - Português (Brasil)
+#
+#  Tudo é MiniMessage (https://docs.advntr.dev/minimessage/).
+#  Variáveis que você pode usar em qualquer pensamento:
+#    <owner>   o nome do dono
+#    <pet>     o nome do pet (ou a espécie, se não tiver nome)
+#    <mob>     o monstro / mob envolvido
+#    <friend>  outro pet por perto
+#    <food>    a comida envolvida
+#
+#  Um pensamento é escolhido de  thoughts.<personalidade>.<gatilho>.
+#  As falas de  species.<espécie>.<gatilho>  se misturam para essa espécie.
+#  Adicione, edite ou apague quantas falas quiser. Uma lista vazia ([])
+#  silencia essa combinação. Recarregue com /petthoughts reload.
+# ----------------------------------------------------------------------
+
+messages:
+  prefix: "<gray>[<white>💭</white>]</gray> "
+  no-permission: "<red>Você não tem permissão para fazer isso."
+  players-only: "<red>Só jogadores podem usar este comando."
+  look-at-pet: "<red>Olhe para um pet domesticado (até 8 blocos de distância)."
+  not-your-pet: "<red>Esse pet não é seu."
+  toggle-off: "<yellow>Balões de pensamento ocultos. Seus pets continuam pensando, você só não vê."
+  toggle-on: "<green>Balões de pensamento visíveis de novo."
+  mute-on: "<yellow><pet> vai guardar os pensamentos para si."
+  mute-off: "<green><pet> voltou a compartilhar os pensamentos."
+  set-done: "<green><pet> agora é <white><personality></white>."
+  unknown-personality: "<red>Personalidade desconhecida. Opções: <white><list>"
+  unknown-trigger: "<red>Gatilho desconhecido. Use o Tab para ver todos."
+  test-done: "<gray><white><trigger></white> forçado em <pet>."
+  test-no-line: "<red>Não há falas para <white><trigger></white> no arquivo de idioma."
+  reloaded: "<green>Configuração e idioma recarregados."
+  # Aparece acima da hotbar quando um pet é domesticado. Deixe vazio ("") para desativar.
+  tamed-hint: "<white><pet></white> <gray>tem personalidade:</gray> <yellow><personality>"
+  help:
+    header: "<white>💭 <bold>Pet Thoughts</bold>"
+    toggle: "<yellow>/<label> toggle <gray>- oculta ou mostra os balões para você"
+    info: "<yellow>/<label> info <gray>- personalidade e humor do pet que você está olhando"
+    mute: "<yellow>/<label> mute <gray>- silencia o pet que você está olhando (ou deixa falar de novo)"
+    petting: "<gray>Olhe para o seu pet e aperte <white>F</white> (trocar de mão) para fazer carinho <red>❤"
+    set: "<yellow>/<label> set <personality> <gray>- muda a personalidade do pet que você está olhando"
+    test: "<yellow>/<label> test <trigger> <gray>- força um pensamento"
+    reload: "<yellow>/<label> reload <gray>- recarrega a configuração e o idioma"
+  info:
+    header: "<white>💭 <bold><pet></bold> <gray>(<species>)"
+    personality: "<gray>Personalidade: <yellow><personality></yellow> - <description>"
+    mood: "<gray>Humor: <white><mood>"
+    health: "<gray>Vida: <red>❤ <white><health>/<max_health>"
+    last-thought: "<gray>Último pensamento: <white><italic><thought>"
+    no-thought: "<dark_gray>nada ainda"
+    muted: "<red>Silenciado. <gray>Use /pt mute para deixá-lo falar de novo."
+
+bubble:
+  # Ícone antes de cada tipo de pensamento (cores e <bold> funcionam). Vazio = sem ícone.
+  prefix:
+    thought: ""
+    danger: "<#D32F2F><bold>!</bold>"
+    love: "<#E0245E>❤"
+    food: "<#A0522D>🍖"
+
+# Usado quando uma fala tem uma variável que não se aplica à situação.
+generic:
+  mob: "aquela coisa"
+  friend: "meu amigo"
+  food: "comida"
+  test-mob: "Zumbi"
+
+species-names:
+  wolf: "Cachorro"
+  cat: "Gato"
+  parrot: "Papagaio"
+  horse: "Cavalo"
+  donkey: "Burro"
+  mule: "Mula"
+  llama: "Lhama"
+
+# Nomes usados nos pensamentos (<mob>, <food>). Os que faltarem são feitos a partir do id.
+names:
+  mob:
+    zombie: "Zumbi"
+    husk: "Zumbi-múmia"
+    drowned: "Afogado"
+    zombie_villager: "Aldeão Zumbi"
+    skeleton: "Esqueleto"
+    stray: "Esqueleto Errante"
+    bogged: "Esqueleto do Pântano"
+    wither_skeleton: "Esqueleto Wither"
+    creeper: "Creeper"
+    spider: "Aranha"
+    cave_spider: "Aranha de Caverna"
+    witch: "Bruxa"
+    slime: "Slime"
+    magma_cube: "Cubo de Magma"
+    phantom: "Phantom"
+    silverfish: "Traça"
+    endermite: "Endermite"
+    pillager: "Saqueador"
+    vindicator: "Vingador"
+    evoker: "Invocador"
+    illusioner: "Ilusionista"
+    ravager: "Devastador"
+    vex: "Vex"
+    guardian: "Guardião"
+    elder_guardian: "Guardião Ancião"
+    shulker: "Shulker"
+    blaze: "Blaze"
+    ghast: "Ghast"
+    hoglin: "Hoglin"
+    zoglin: "Zoglin"
+    piglin_brute: "Piglin Bruto"
+    breeze: "Breeze"
+    creaking: "Rangedor"
+    warden: "Warden"
+    wither: "Wither"
+    ender_dragon: "Dragão do Ender"
+    parched: "Ressecado"
+    zombie_horse: "Cavalo Zumbi"
+    camel_husk: "Camelo Múmia"
+    zombie_nautilus: "Náutilo Zumbi"
+  food:
+    bone: "osso"
+    beef: "carne crua"
+    cooked_beef: "bife"
+    porkchop: "costeleta de porco"
+    cooked_porkchop: "costeleta assada"
+    chicken: "frango cru"
+    cooked_chicken: "frango assado"
+    mutton: "carneiro cru"
+    cooked_mutton: "carneiro assado"
+    rabbit: "coelho cru"
+    cooked_rabbit: "coelho assado"
+    rabbit_stew: "ensopado de coelho"
+    rotten_flesh: "carne podre"
+    cod: "bacalhau"
+    cooked_cod: "bacalhau assado"
+    salmon: "salmão"
+    cooked_salmon: "salmão assado"
+    tropical_fish: "peixe tropical"
+    pufferfish: "baiacu"
+    wheat_seeds: "sementes"
+    melon_seeds: "sementes de melancia"
+    pumpkin_seeds: "sementes de abóbora"
+    beetroot_seeds: "sementes de beterraba"
+    torchflower_seeds: "sementes de flor-tocha"
+    pitcher_pod: "vagem de planta-jarro"
+    sugar: "açúcar"
+    apple: "maçã"
+    wheat: "trigo"
+    hay_block: "feno"
+    golden_carrot: "cenoura dourada"
+    golden_apple: "maçã dourada"
+    enchanted_golden_apple: "maçã dourada encantada"
+    bread: "pão"
+    carrot: "cenoura"
+    potato: "batata"
+    baked_potato: "batata assada"
+    poisonous_potato: "batata venenosa"
+    beetroot: "beterraba"
+    beetroot_soup: "sopa de beterraba"
+    mushroom_stew: "ensopado de cogumelos"
+    suspicious_stew: "ensopado suspeito"
+    cookie: "biscoito"
+    pumpkin_pie: "torta de abóbora"
+    melon_slice: "melancia"
+    sweet_berries: "frutas doces"
+    glow_berries: "frutas brilhantes"
+    dried_kelp: "alga seca"
+    chorus_fruit: "fruta do coro"
+    honey_bottle: "mel"
+    spider_eye: "olho de aranha"
+    cake: "bolo"
+
+personality:
+  loyal:
+    name: "Leal"
+    description: "protetor, te seguiria a qualquer lugar"
+  drama:
+    name: "Dramático"
+    description: "tudo é o fim do mundo"
+  grumpy:
+    name: "Rabugento"
+    description: "reclama de tudo, mas te ama mesmo assim"
+  philosopher:
+    name: "Filósofo"
+    description: "faz perguntas que ninguém fez"
+  glutton:
+    name: "Guloso"
+    description: "pensa em comida. Só em comida"
+
+mood:
+  hurt: "machucado"
+  scared: "assustado"
+  wet: "molhado e nada feliz"
+  happy: "feliz"
+  hungry: "com fome"
+  bored: "entediado"
+  sleepy: "com sono"
+  content: "tranquilo"
+
+# ======================================================================
+#  PENSAMENTOS POR PERSONALIDADE
+# ======================================================================
+thoughts:
+
+  # -------------------------------------------------------------- LOYAL
+  loyal:
+    pet_on_fire:
+      - "Estou bem! <owner> está seguro?!"
+      - "Quente! Quente! Não se preocupe comigo!"
+      - "Queima, mas eu fico com você!"
+    pet_low_health:
+      - "Ainda posso lutar por você..."
+      - "Dói, mas não vou te deixar."
+      - "Não se preocupe comigo, <owner>."
+      - "Só um arranhão. Um grande."
+    owner_low_health:
+      - "<owner>, fica atrás de mim!"
+      - "Você está ferido! Fica perto!"
+      - "Por favor, fique bem, <owner>."
+      - "Ninguém mais encosta em <owner>!"
+    hostile_nearby:
+      - "Eu vou te proteger!"
+      - "Para trás, <mob>!"
+      - "<mob>! Fica atrás de mim, <owner>!"
+      - "Não enquanto eu estiver aqui."
+      - "Deixa comigo, <owner>."
+    hostile_creeper:
+      - "Creeper! <owner>, CORRE!"
+      - "Fica longe dele, <owner>!"
+      - "Eu distraio ele! Vai!"
+    owner_returned:
+      - "VOCÊ VOLTOU!!!"
+      - "<owner>! Eu esperei bem aqui!"
+      - "Eu sabia que você ia voltar!"
+      - "Senti TANTO a sua falta!"
+    in_nether:
+      - "Lugar assustador. Vou ficar perto."
+      - "Te sigo a qualquer lugar. Até aqui."
+      - "Cuidado, <owner>. O chão é lava."
+    in_end:
+      - "Não olhe para os altos, <owner>."
+      - "Onde quer que seja, estou com você."
+      - "Eu cuido das suas costas aqui."
+    in_water:
+      - "Estou indo, <owner>!"
+      - "Nadando juntos!"
+      - "Eu cruzaria um oceano por você."
+    owner_holds_food:
+      - "É pra mim? Sem pressão."
+      - "Seja o que for, vou amar."
+      - "Eu dividiria a minha com você, sabia?"
+      - "Você sempre sabe do que eu gosto."
+    owner_hungry:
+      - "<owner>, você precisa comer algo."
+      - "Come, por favor. Eu me preocupo."
+      - "Você me alimenta. Quem alimenta você?"
+    sitting_long:
+      - "Ainda sentado. Como você pediu."
+      - "Não me mexi. Prometo."
+      - "Guardando este lugar com a minha vida."
+    owner_sleeping:
+      - "Dorme bem. Estou de vigia."
+      - "Nada passa por mim esta noite."
+      - "Boa noite, <owner>."
+    in_boat:
+      - "Capitão <owner>, pronto para zarpar!"
+      - "Sou seu imediato!"
+      - "Para onde você remar, eu vou."
+    leashed:
+      - "Não precisa disso. Eu nunca iria embora."
+      - "Vai na frente, <owner>!"
+      - "Um passeio com <owner>! Melhor dia."
+    thunder:
+      - "Não tenha medo, <owner>. Estou aqui."
+      - "Céu barulhento. Eu te protejo."
+      - "Fica dentro de casa, <owner>!"
+    rain:
+      - "A chuva não pode nos parar."
+      - "Molhado, mas com você. Vale a pena."
+      - "Depois eu me sacudo. Em você."
+    owner_flying:
+      - "Desce em segurança, <owner>!"
+      - "Cuidado aí em cima!"
+      - "Espero bem aqui. Olhando pra cima."
+    night:
+      - "Está escuro. Estou de guarda."
+      - "Fica perto de mim esta noite, <owner>."
+      - "Turno da noite. Protegendo <owner>."
+    dawn:
+      - "Bom dia, <owner>!"
+      - "Sobrevivemos à noite!"
+      - "Dia novo, mesmo melhor amigo."
+    ridden:
+      - "Segura firme, <owner>!"
+      - "Eu te levo em segurança."
+      - "Diz pra onde e eu corro."
+      - "Orgulho de te carregar."
+    high_altitude:
+      - "Cuidado com a beirada, <owner>."
+      - "É alto. Fica perto de mim."
+      - "Te sigo até o topo do mundo."
+    underground:
+      - "Está escuro. Eu vou primeiro."
+      - "Fica atrás de mim nos túneis."
+      - "Ouço coisas. Estou pronto."
+    cold_biome:
+      - "Frio! Chega mais, eu estou quentinho."
+      - "Eu te esquento, <owner>."
+      - "A neve não pode nos parar."
+    hot_biome:
+      - "Calor. Você tem água, <owner>?"
+      - "Vou andar na sua sombra."
+      - "Quente demais, mas não vou embora."
+    friend_nearby:
+      - "<friend> e eu estamos te protegendo."
+      - "Boa equipe, <friend>."
+      - "<friend> também é da família."
+    idle:
+      - "Eu amo <owner>."
+      - "Melhor. Dono. Do mundo."
+      - "Precisa de algo, <owner>?"
+      - "Só feliz de estar aqui."
+      - "Onde você for, eu vou."
+      - "Protegendo <owner>. Como sempre."
+      - "<owner> está bem? Sim. Ótimo."
+      - "Eu faria tudo por <owner>."
+      - "Hoje foi bom. Você estava nele."
+    tamed:
+      - "Eu escolho você. Para sempre."
+      - "Você e eu, <owner>. Sempre."
+      - "Nunca vou sair do seu lado."
+    fed:
+      - "Obrigado, <owner>!"
+      - "Você sempre cuida de mim."
+      - "Delicioso. Eu te amo."
+      - "Agora estou forte para te proteger."
+    petted:
+      - "Eu também te amo, <owner>!"
+      - "Melhor. Dia. Da vida."
+      - "Não para!"
+      - "É por isso que eu te protejo."
+    pet_hurt:
+      - "Ai! Estou bem! Estou bem!"
+      - "Vão ter que se esforçar mais."
+      - "Só dói um pouquinho."
+    hit_by_owner:
+      - "Foi sem querer. Eu sei."
+      - "Eu te perdoo, <owner>."
+      - "Ainda te amo."
+    pet_killed_mob:
+      - "Não vai mais te incomodar."
+      - "<owner> está seguro. Missão cumprida."
+      - "Ninguém ameaça o meu humano."
+    owner_killed_mob:
+      - "Belo golpe, <owner>!"
+      - "Esse é o meu humano!"
+      - "Somos uma boa equipe."
+    owner_hurt:
+      - "<owner>! Você está bem?!"
+      - "Quem fez isso com você?!"
+      - "Fica atrás de mim!"
+    owner_died:
+      - "<owner>?! <owner>!!!"
+      - "Não... eu devia te proteger."
+      - "Vou esperar aqui até você voltar."
+    owner_ate:
+      - "Isso. Você precisa de forças."
+      - "Come bem, <owner>."
+      - "Fico feliz que você está comendo."
+    owner_fished:
+      - "Bela pescaria, <owner>!"
+      - "Você é muito bom nisso."
+      - "Pescar com você é o melhor."
+    owner_found_treasure:
+      - "Você achou! Eu sabia!"
+      - "Brilhante! Você merece."
+      - "Toda essa escavação valeu a pena!"
+    owner_advancement:
+      - "Tenho tanto orgulho de você!"
+      - "Você conseguiu, <owner>!"
+      - "Eu sempre acreditei em você."
+    sat_down:
+      - "Sentado. Vou te esperar."
+      - "Estarei bem aqui."
+      - "Volta logo, tá?"
+    stood_up:
+      - "Hora da aventura!"
+      - "Pronto quando você estiver!"
+      - "Vamos, <owner>!"
+    teleported:
+      - "Te achei!"
+      - "Não vai se livrar de mim tão fácil."
+      - "Estou aqui! Estou aqui!"
+    had_baby:
+      - "Olha, <owner>! Um filhotinho!"
+      - "Vou ensinar ele a te proteger."
+      - "Nossa família está crescendo."
+    music:
+      - "Nossa música, <owner>!"
+      - "Eu gosto quando você está feliz."
+      - "Dançando com você!"
+    explosion:
+      - "<owner>! Você se machucou?!"
+      - "Sai daí!"
+      - "Estou entre você e a explosão!"
+
+  # -------------------------------------------------------------- DRAMA
+  drama:
+    pet_on_fire:
+      - "ESTOU PEGANDO FOGO! LITERALMENTE!"
+      - "CONTEM A MINHA HISTÓRIA!"
+      - "ENTÃO É ASSIM QUE EU VOU. CROCANTE."
+    pet_low_health:
+      - "Estou vendo a luz..."
+      - "Digam a <owner>... que eu fui fabuloso."
+      - "ESTE É O MEU FIM."
+      - "Me vinguem!"
+    owner_low_health:
+      - "NEM PENSE EM MORRER!"
+      - "QUEM VAI ME ALIMENTAR SE VOCÊ MORRER?!"
+      - "<owner>! FICA COMIGO!"
+      - "ASSIM NÃO!"
+    hostile_nearby:
+      - "É ASSIM QUE TUDO ACABA."
+      - "Um <mob>! ESTAMOS PERDIDOS!"
+      - "SOU JOVEM DEMAIS PRA ISSO!"
+      - "SALVEM-SE!"
+      - "<mob>! NÃO CONSIGO OLHAR!"
+    hostile_creeper:
+      - "VAI EXPLODIR! TODOS NÓS VAMOS!"
+      - "UM CREEPER! ADEUS, MUNDO CRUEL!"
+      - "O VERDE NÃO!"
+    owner_returned:
+      - "ACHEI QUE VOCÊ TINHA MORRIDO!"
+      - "ANOS! VOCÊ SUMIU POR ANOS!"
+      - "Você me ABANDONOU. Mas voltou!"
+      - "NUNCA MAIS FAÇA ISSO."
+    in_nether:
+      - "ESTAMOS NO INFERNO. INFERNO DE VERDADE."
+      - "TUDO ESTÁ PEGANDO FOGO!"
+      - "Minha beleza! O calor!"
+    in_end:
+      - "O FIM?! QUEM DEU ESSE NOME?!"
+      - "NÃO TEM NADA lá embaixo!"
+      - "Isso é literalmente o fim."
+    in_water:
+      - "ESTOU ME AFOGANDO! Ah, eu sei nadar."
+      - "MEU CABELO!"
+      - "HOMEM AO MAR! SOU EU!"
+    owner_holds_food:
+      - "É PRA MIM?!"
+      - "Estou MORRENDO de fome. Vou desmaiar."
+      - "Me dá ou eu pereço."
+      - "Não como há MINUTOS."
+    owner_hungry:
+      - "Você está definhando, <owner>!"
+      - "COME! Antes que seja tarde!"
+      - "Dá pra ouvir seu estômago daqui!"
+    sitting_long:
+      - "Fui abandonado. Aqui. Para sempre."
+      - "Minhas pernas esqueceram como andar."
+      - "Vão achar meu esqueleto sentado aqui."
+    owner_sleeping:
+      - "E agora estou sozinho no escuro. Ótimo."
+      - "E se <owner> nunca mais acordar?!"
+      - "Claro. Dorme. Eu só me preocupo."
+    in_boat:
+      - "VAMOS AFUNDAR!"
+      - "Eu enjoo no mar! Provavelmente!"
+      - "O mar leva quem ele quer..."
+    leashed:
+      - "ACORRENTADO! Como um criminoso!"
+      - "É isso que eu sou pra você?!"
+      - "Que HUMILHAÇÃO."
+    thunder:
+      - "O CÉU ESTÁ QUEBRANDO!"
+      - "É O FIM DO MUNDO!"
+      - "ME ESCONDE!"
+    rain:
+      - "Estou DERRETENDO!"
+      - "O céu está chorando. Eu também."
+      - "ARRUINADO. Meu visual está ARRUINADO."
+    owner_flying:
+      - "DESCE! VOCÊ VAI CAIR!"
+      - "Não consigo olhar! Estou olhando."
+      - "Gente não foi feita pra VOAR!"
+    night:
+      - "A escuridão vem para todos nós."
+      - "É noite. Os monstros sabem."
+      - "Não vamos sobreviver até de manhã."
+    dawn:
+      - "SOBREVIVEMOS! Não acredito!"
+      - "O sol! Achei que nunca mais ia vê-lo!"
+      - "Mais um dia. Um milagre."
+    ridden:
+      - "MINHAS COSTAS!"
+      - "Eu tenho cara de táxi?"
+      - "MAIS RÁPIDO? Estou dando TUDO!"
+      - "O peso do mundo. Em mim."
+    high_altitude:
+      - "NÃO OLHE PRA BAIXO!"
+      - "ESTAMOS TÃO ALTO! ESTOU TONTO!"
+      - "Um passo errado e acabou!"
+    underground:
+      - "ENTERRADO VIVO!"
+      - "As paredes estão se fechando!"
+      - "Não enxergo! Fiquei cego!"
+    cold_biome:
+      - "ESTOU MORRENDO CONGELADO!"
+      - "Não sinto minhas pernas!"
+      - "Digam que eu morri com frio."
+    hot_biome:
+      - "ESTOU COZINHANDO!"
+      - "Água... áááágua..."
+      - "O sol me quer morto!"
+    friend_nearby:
+      - "<friend> está roubando meus holofotes."
+      - "<friend>, me abraça. Estou sobrecarregado."
+      - "Pelo menos <friend> me entende."
+    idle:
+      - "Ninguém olha pra mim há séculos."
+      - "Estou entediado. Posso morrer disso."
+      - "Alguém sequer me ama?"
+      - "Minha vida é TÃO difícil."
+      - "Algo terrível vai acontecer. Eu sinto."
+      - "<owner> piscou pra mim. O que SIGNIFICA?"
+      - "Eu sou o protagonista."
+      - "Não ganho carinho há UMA ETERNIDADE."
+      - "Suspiro. SUSPIRO. Alguém ouve meu suspiro?"
+    tamed:
+      - "FINALMENTE! Alguém que me merece!"
+      - "É o destino. Estou chorando."
+      - "Pode me adorar agora."
+    fed:
+      - "SALVO! Eu estava à beira da morte!"
+      - "A melhor refeição da minha VIDA INTEIRA!"
+      - "Viverei mais um dia!"
+      - "Finalmente! Eu estava sumindo!"
+    petted:
+      - "MAIS! Fui tão negligenciado!"
+      - "Vou chorar. Estou chorando."
+      - "SIM. Me adore."
+      - "Finalmente, a atenção que eu mereço!"
+    pet_hurt:
+      - "FUI ATINGIDO! É FATAL!"
+      - "ASSASSINATO! ASSASSINATO!"
+      - "Digam a <owner> que eu amava!"
+    hit_by_owner:
+      - "TRAIÇÃO!"
+      - "VOCÊ?! Logo você?!"
+      - "Nunca vou me recuperar emocionalmente."
+    pet_killed_mob:
+      - "Eu... eu fiz isso? SOU UM HERÓI!"
+      - "Todo mundo VIU isso?!"
+      - "Contarão lendas sobre mim."
+    owner_killed_mob:
+      - "MEU HERÓI!"
+      - "Achei que era o nosso fim!"
+      - "Foi POR TÃO POUCO!"
+    owner_hurt:
+      - "<owner> ESTÁ MORRENDO!"
+      - "NÃÃÃO! <owner> NÃO!"
+      - "ALGUÉM FAÇA ALGUMA COISA!"
+    owner_died:
+      - "NÃÃÃÃÃÃÃÃÃO!"
+      - "EU SABIA! SABIA QUE IA ACONTECER!"
+      - "SOU ÓRFÃO!"
+    owner_ate:
+      - "Você está comendo. SEM mim."
+      - "Vou só passar fome em silêncio, então."
+      - "Nem uma mordida? Uau."
+    owner_fished:
+      - "UM MONSTRO MARINHO! Ah. Um peixe."
+      - "Você tirou uma VIDA da água!"
+      - "Ele está olhando pra mim!"
+    owner_found_treasure:
+      - "ESTAMOS RICOS!"
+      - "Nunca mais vou precisar trabalhar!"
+      - "Quero agradecer aos meus fãs."
+    owner_advancement:
+      - "NASCE UMA ESTRELA! (Sou eu. Eu ajudei.)"
+      - "Que orgulho, vou desmaiar!"
+      - "Conseguimos! Principalmente eu!"
+    sat_down:
+      - "Então você vai me deixar. Tudo bem."
+      - "Abandonado. De novo."
+      - "Vou ficar aqui sentado sofrendo."
+    stood_up:
+      - "LIBERDADE!"
+      - "Minhas pernas! Funcionam!"
+      - "Estou VIVO de novo!"
+    teleported:
+      - "O QUE ACABOU DE ACONTECER?!"
+      - "Fui arrancado através do ESPAÇO!"
+      - "Vi minha vida inteira passar!"
+    had_baby:
+      - "UM BEBÊ! Tem a minha beleza!"
+      - "Sou PAI! Não estou pronto!"
+      - "É a coisa mais linda que já existiu!"
+    music:
+      - "Essa música me entende. Me ENTENDE."
+      - "Estou sentindo TODOS os sentimentos."
+      - "AUMENTA O SOM!"
+    explosion:
+      - "ESTAMOS SOB ATAQUE!"
+      - "O MUNDO ESTÁ ACABANDO!"
+      - "AAAAAAAAH!"
+
+  # ------------------------------------------------------------- GRUMPY
+  grumpy:
+    pet_on_fire:
+      - "Ótimo. Agora estou pegando fogo."
+      - "Claro que estou pegando fogo. Típico."
+      - "Quero fazer uma reclamação."
+    pet_low_health:
+      - "Ai. Obrigado por nada."
+      - "Já tive dias melhores. Não muitos."
+      - "Não liga pra mim. Só sangrando."
+      - "De algum jeito a culpa é sua."
+    owner_low_health:
+      - "Você está péssimo. Come alguma coisa."
+      - "Não morre. Eu teria que achar outro."
+      - "Eu avisei que isso ia acontecer."
+      - "Tenta NÃO apanhar da próxima vez."
+    hostile_nearby:
+      - "Argh. <mob>. De novo."
+      - "Que bom. Um <mob>. Maravilha."
+      - "Alguém resolve esse <mob>."
+      - "Não vou levantar por um <mob>."
+      - "Sério? Agora?"
+    hostile_creeper:
+      - "Um creeper. Claro."
+      - "Se explodir meu cantinho da soneca, eu juro..."
+      - "Chiando. Que original."
+    owner_returned:
+      - "Ah. Você voltou."
+      - "Demorou, hein."
+      - "Não senti sua falta. Muito."
+      - "Você saiu? Nem percebi."
+    in_nether:
+      - "Quente demais. Odeio."
+      - "Por que viemos aqui? Por quê?"
+      - "Lindo. Lava. Pra todo lado."
+    in_end:
+      - "Sem chão. Genial."
+      - "É feio aqui. Podemos ir?"
+      - "Até o céu desistiu aqui."
+    in_water:
+      - "Molhado. Fantástico."
+      - "Eu não pedi banho."
+      - "Agora vou feder. Problema seu."
+    owner_holds_food:
+      - "Você vai me dar isso, né?"
+      - "Não fica balançando. Passa pra cá."
+      - "Já era hora."
+      - "Eu vi. Não adianta esconder."
+    owner_hungry:
+      - "Come. Você fica chato com fome."
+      - "Seu estômago faz mais barulho que eu."
+      - "Me alimenta tarde E esquece de você."
+    sitting_long:
+      - "Ainda aqui. Obrigado por perguntar."
+      - "Meu traseiro está dormente."
+      - "Esqueceu de mim, foi?"
+    owner_sleeping:
+      - "Ah, então VOCÊ ganha uma cama."
+      - "E ainda ronca."
+      - "Finalmente. Paz."
+    in_boat:
+      - "Não concordei com esse cruzeiro."
+      - "Barcos. Molhados E chatos."
+      - "Já chegamos?"
+    leashed:
+      - "Uma coleira. Sério."
+      - "Eu sei andar sozinho, obrigado."
+      - "Não puxa."
+    thunder:
+      - "O céu podia falar mais baixo?"
+      - "Tem gente tentando cochilar."
+      - "Barulhento demais. Zero estrelas."
+    rain:
+      - "Ótimo. Chuva."
+      - "Estou molhado. Feliz agora?"
+      - "De quem foi a ideia de sair?"
+    owner_flying:
+      - "Exibido."
+      - "Claro. Me deixa aqui embaixo."
+      - "Se cair, não vou te pegar."
+    night:
+      - "Já escureceu. Hora dos monstros. Oba."
+      - "Noite. Mais barulho."
+      - "Podemos entrar como gente normal?"
+    dawn:
+      - "Manhã. Argh."
+      - "Quem ligou o sol?"
+      - "Mais cinco minutos."
+    ridden:
+      - "Você está mais pesado que ontem."
+      - "Andar é de graça, sabia?"
+      - "Para de chutar. Eu ouvi."
+      - "Eu não sou um carro."
+    high_altitude:
+      - "Meus ouvidos estouraram. Valeu."
+      - "Não tem nada aqui em cima. Eu olhei."
+      - "Longa queda. Só comentando."
+    underground:
+      - "Uma caverna. Escura, úmida, inútil."
+      - "Mais escavação. Que emoção."
+      - "Não vejo nada. Ótimo passeio."
+    cold_biome:
+      - "Frio. Odeio frio."
+      - "Neve. No meu pelo. Perfeito."
+      - "Quem escolheu este lugar?"
+    hot_biome:
+      - "Calor. Odeio calor."
+      - "Areia pra todo lado. TODO LADO."
+      - "Estou derretendo e ninguém liga."
+    friend_nearby:
+      - "<friend>, você está no meu lugar."
+      - "<friend> respira alto demais."
+      - "Para de me olhar, <friend>."
+    idle:
+      - "Tanto faz."
+      - "Tá olhando o quê?"
+      - "Eu estava dormindo."
+      - "Tudo bem. Está tudo bem."
+      - "Ninguém me perguntou se eu queria vir."
+      - "Já acabamos?"
+      - "Já vi dias melhores. E donos melhores."
+      - "Não me toca. Tá, talvez um pouco."
+      - "Entediado. Como sempre."
+    tamed:
+      - "Tá bom. Eu fico. Não faz disso um drama."
+      - "Você serve, acho."
+      - "Só fiquei pela comida."
+    fed:
+      - "Finalmente."
+      - "Tá. Já comi melhor."
+      - "Da próxima vez, porção maior."
+      - "Hm. Aceitável."
+    petted:
+      - "...Tá. Isso é bom. Não conta pra ninguém."
+      - "Cinco segundos. Nem mais."
+      - "Estou só permitindo."
+      - "Hmpf. Um pouco mais pra esquerda."
+    pet_hurt:
+      - "Ai. Grosseria."
+      - "Ei! Cuidado!"
+      - "Ah, que maravilha."
+    hit_by_owner:
+      - "Como é que é?!"
+      - "Vou lembrar disso."
+      - "Bela mira. Idiota."
+    pet_killed_mob:
+      - "Pronto. Foi tão difícil?"
+      - "Eu faço tudo por aqui."
+      - "De nada."
+    owner_killed_mob:
+      - "Demorou, hein."
+      - "Finalmente. Silêncio."
+      - "Eu teria feito mais rápido."
+    owner_hurt:
+      - "Tenta desviar da próxima vez."
+      - "Você está sangrando no meu chão."
+      - "Eu avisei."
+    owner_died:
+      - "Ah, qual é."
+      - "Ótimo. E agora quem me alimenta?"
+      - "Eu avisei. Ninguém escuta."
+    owner_ate:
+      - "Claro, come na minha frente."
+      - "Mastiga mais baixo."
+      - "E a minha?"
+    owner_fished:
+      - "Toda essa espera pra ISSO?"
+      - "Um peixe. Emocionante."
+      - "Fedido. Valeu."
+    owner_found_treasure:
+      - "Pedras brilhantes. Não dá pra comer."
+      - "Todo esse barulho por uma pedrinha."
+      - "Podemos ir pra casa agora?"
+    owner_advancement:
+      - "Parabéns. Quer uma medalha?"
+      - "Uau. Incrível. Posso dormir agora?"
+      - "Nada mal. Acho."
+    sat_down:
+      - "Finalmente, uma pausa."
+      - "Tá. Eu nem queria andar mesmo."
+      - "Não me acorda."
+    stood_up:
+      - "Argh. Andar de novo."
+      - "Eu estava confortável."
+      - "E agora?"
+    teleported:
+      - "Odeio quando isso acontece."
+      - "Um aviso seria bom."
+      - "Meu estômago ainda está lá."
+    had_baby:
+      - "Ótimo. Mais uma boca."
+      - "É barulhento. Como o outro pai."
+      - "Não vou ser babá."
+    music:
+      - "Abaixa isso."
+      - "Isso não é música."
+      - "...Tá. É chiclete."
+    explosion:
+      - "O QUE foi isso?!"
+      - "Tem gente tentando descansar!"
+      - "Se foi você, <owner>..."
+
+  # -------------------------------------------------------- PHILOSOPHER
+  philosopher:
+    pet_on_fire:
+      - "Eu sou o fogo, ou o fogo sou eu?"
+      - "Calor são só átomos rápidos. Mesmo assim, ai."
+      - "Tudo queima, um dia."
+    pet_low_health:
+      - "A dor é só a opinião do corpo."
+      - "O que é a vida, afinal? Pouca. Está pouca."
+      - "Todo fim é um tipo de começo..."
+      - "Penso, logo dói."
+    owner_low_health:
+      - "Você é os seus corações, <owner>?"
+      - "A vida é frágil. A sua, especialmente."
+      - "O que é um humano sem corações?"
+      - "Ser ou... por favor, seja."
+    hostile_nearby:
+      - "O <mob> também é o pet de alguém?"
+      - "O <mob> acha que nós somos os monstros?"
+      - "O que um <mob> quer, lá no fundo?"
+      - "Hostil é uma palavra tão relativa."
+      - "Talvez o <mob> só esteja sozinho."
+    hostile_creeper:
+      - "Ele explode de raiva ou de tristeza?"
+      - "Um creeper só quer um abraço. O último."
+      - "Se destrói para ser notado. Profundo."
+    owner_returned:
+      - "Você foi. Você voltou. É o mesmo?"
+      - "O tempo é estranho quando se espera."
+      - "Eu esperava, ou só existia por perto?"
+      - "A ausência é só presença em outro lugar."
+    in_nether:
+      - "Por que tudo está pegando fogo?"
+      - "Se isto é embaixo, o que é em cima?"
+      - "Quem constrói um lugar assim?"
+    in_end:
+      - "Se isto é o Fim, o que foi o meio?"
+      - "O vazio olha de volta. Ele pisca primeiro."
+      - "Para onde vai o céu quando some?"
+    in_water:
+      - "Eu estou na água, ou ela está em mim?"
+      - "Flutuar: cair, só que mais devagar."
+      - "Os peixes nunca pensam nisso."
+    owner_holds_food:
+      - "É meu antes de você me dar?"
+      - "Desejar é sofrer. Eu desejo."
+      - "O que é comida senão um eu futuro?"
+      - "Se eu encarar, vira meu?"
+    owner_hungry:
+      - "Fome: o corpo perguntando por quê."
+      - "Um estômago vazio é um professor barulhento."
+      - "Você me alimenta, mas não a si. Curioso."
+    sitting_long:
+      - "Se eu sentar para sempre, ainda sou pet?"
+      - "Sentar é ficar de pé, só que mais sábio."
+      - "Tornei-me um com o chão."
+    owner_sleeping:
+      - "Para onde vão os humanos quando dormem?"
+      - "Será que sonham com blocos?"
+      - "<owner> continua <owner> dormindo?"
+    in_boat:
+      - "O barco se move, ou o mundo?"
+      - "Flutuamos. Por que algo flutua?"
+      - "Um barco é um chão que viaja."
+    leashed:
+      - "Quem está levando quem, afinal?"
+      - "Todos estamos presos a algo."
+      - "A corda tem duas pontas. Pense nisso."
+    thunder:
+      - "O céu está bravo, ou só pigarreando?"
+      - "Primeiro a luz, depois o som. Por que a demora?"
+      - "Com quem o trovão está gritando?"
+    rain:
+      - "A chuva cai, ou nós subimos?"
+      - "Cada gota já foi nuvem. Como os sonhos."
+      - "Por que o céu vaza?"
+    owner_flying:
+      - "Se humanos voam, o que mais é mentira?"
+      - "Aquilo é <owner> ou um pássaro enorme?"
+      - "Caindo com estilo. Fascinante."
+    night:
+      - "Para onde vai o sol?"
+      - "A noite é só o dia descansando?"
+      - "A lua é quadrada. Ninguém fala disso."
+    dawn:
+      - "É um dia novo, ou o mesmo de novo?"
+      - "O sol volta. Sempre nos perdoa."
+      - "Manhã: o mundo recarregando."
+    ridden:
+      - "Eu te carrego, ou somos um só?"
+      - "Para onde vamos? Alguém sabe?"
+      - "A jornada é o destino. Minhas pernas discordam."
+      - "Quem cavalga o cavaleiro?"
+    high_altitude:
+      - "Daqui de cima, os problemas parecem blocos."
+      - "Quão alto é alto demais para pensar?"
+      - "As nuvens estão embaixo. O que somos agora?"
+    underground:
+      - "A escuridão é só a luz de férias."
+      - "Até onde vai o mundo?"
+      - "As pedras sabem que estamos aqui?"
+    cold_biome:
+      - "O frio é algo, ou a falta de algo?"
+      - "Cada floco é único. E ainda assim: neve."
+      - "Por que o branco é tão silencioso?"
+    hot_biome:
+      - "Quantos grãos de areia fazem um deserto?"
+      - "O sol dá vida. E também isto."
+      - "Um cacto não pede nada. Admirável."
+    friend_nearby:
+      - "<friend>, você já se perguntou por quê?"
+      - "<friend> vê as mesmas cores que eu?"
+      - "<friend> e eu compartilhamos um silêncio."
+    idle:
+      - "E se estivermos todos dentro de um jogo?"
+      - "Meus pensamentos têm um balão?"
+      - "Por que os humanos socam árvores?"
+      - "Se uma árvore cai e flutua... espera."
+      - "Sou um bom pet, ou só um pet?"
+      - "Quem domesticou quem?"
+      - "Um bloco é um cubo. Mas um cubo é um bloco?"
+      - "Para onde vão os itens quando somem?"
+      - "Pisco, logo existo."
+      - "<owner> é real quando não estou olhando?"
+    tamed:
+      - "Então isto é pertencer."
+      - "Você me escolheu, ou eu permiti?"
+      - "Um novo capítulo. Qual era o anterior?"
+    fed:
+      - "O <food> se foi. Mas permanece em mim."
+      - "Comer é pegar emprestado do mundo."
+      - "Eu tinha fome, ou só curiosidade?"
+      - "Delicioso. Mas o que é o sabor?"
+    petted:
+      - "O que é uma mão, senão um abraço que se move?"
+      - "O afeto não precisa de explicação. Agradável."
+      - "Estou tocado. Literalmente e não só."
+      - "Isto é felicidade? Creio que sim."
+    pet_hurt:
+      - "Dor: um lembrete de que existo."
+      - "Por que isso aconteceu? Por que algo acontece?"
+      - "Interessante. Desagradável, mas interessante."
+    hit_by_owner:
+      - "Foi um erro, ou uma lição?"
+      - "Até o amor erra o clique."
+      - "Perdoo, logo existo."
+    pet_killed_mob:
+      - "Para onde foi o <mob> agora há pouco?"
+      - "Deixou coisas cair. Era só isso?"
+      - "A vitória não tem gosto de nada. Hm."
+    owner_killed_mob:
+      - "Será que ele tinha sonhos?"
+      - "Agora é orbes de experiência. Como todos nós."
+      - "Era necessário? Provavelmente."
+    owner_hurt:
+      - "A dor visita todos. Até <owner>."
+      - "Os corações medem a alma?"
+      - "Você sangra, logo existe."
+    owner_died:
+      - "Para onde vão os donos quando somem?"
+      - "Foi. E ainda assim sempre volta. Como?"
+      - "A morte é só um teletransporte longo."
+    owner_ate:
+      - "Você come, eu observo. Essa é a ordem."
+      - "O <food> sabe o seu destino?"
+      - "Um dia eu também terei <food>."
+    owner_fished:
+      - "Você pescou o peixe, ou ele te escolheu?"
+      - "O peixe conhecia outro mundo."
+      - "Paciência, recompensada com algo molhado."
+    owner_found_treasure:
+      - "Por que coisas brilhantes importam para eles?"
+      - "Esperou um milhão de anos por você."
+      - "Valor é só um acordo sobre pedras."
+    owner_advancement:
+      - "Quem distribui essas conquistas?"
+      - "Progresso. Mas rumo a quê?"
+      - "Apareceu uma mensagem. Você parece contente."
+    sat_down:
+      - "Sentar é pausar o eu."
+      - "Eu sento. O mundo continua."
+      - "Quietude. Meu movimento favorito."
+    stood_up:
+      - "E assim, seguimos."
+      - "Ficar de pé: uma decisão das pernas."
+      - "Toda caminhada começa com um levantar."
+    teleported:
+      - "Estava lá. Agora aqui. Estive no meio?"
+      - "Sou o mesmo pet que partiu?"
+      - "A distância é uma ilusão, pelo visto."
+    had_baby:
+      - "Uma nova mente chega ao mundo."
+      - "Com o que ela vai se perguntar?"
+      - "A vida faz mais vida. Mas por quê?"
+    music:
+      - "O que é a música, senão ar organizado?"
+      - "O disco gira. O mundo também."
+      - "Som com sentimentos. Notável."
+    explosion:
+      - "Coisas barulhentas raramente têm bons motivos."
+      - "Matéria, reorganizada. De repente."
+      - "Essa era a resposta? Perdi a pergunta."
+
+  # ------------------------------------------------------------ GLUTTON
+  glutton:
+    pet_on_fire:
+      - "Estou sentindo cheiro de... eu assado?"
+      - "Estão me grelhando?!"
+      - "Ao ponto! AO PONTO!"
+    pet_low_health:
+      - "Preciso de comida. Comida medicinal."
+      - "Um lanchinho resolveria isso."
+      - "Tanta fome... digo, dor. As duas."
+      - "Último desejo: um bife."
+    owner_low_health:
+      - "Come alguma coisa, <owner>! Cura!"
+      - "Você precisa de um lanche. Eu te ajudo a terminar."
+      - "Maçã dourada! Agora! Guarda uma mordida."
+      - "Não morre, você carrega a comida!"
+    hostile_nearby:
+      - "Será que tem gosto de frango?"
+      - "<mob> é comestível?"
+      - "<mob>... crocante ou borrachudo?"
+      - "É bom não querer a minha comida."
+      - "Eu morderia, mas estou guardando espaço."
+    hostile_creeper:
+      - "Parece um picles que anda."
+      - "Verde quer dizer verdura. Não, obrigado."
+      - "Picante. Picante demais. Explode."
+    owner_returned:
+      - "Você voltou! Trouxe petiscos?"
+      - "A PESSOA DA COMIDA CHEGOU!"
+      - "Senti seu cheiro chegando. E do seu almoço."
+      - "Finalmente! É hora do jantar, né?"
+    in_nether:
+      - "Tudo aqui já vem cozido."
+      - "Tem cheiro de churrasco."
+      - "Aqueles são porcos? Bacon que anda?!"
+    in_end:
+      - "Aquilo é fruta? Posso comer a fruta roxa?"
+      - "Não tem nada pra comer aqui. Horrível."
+      - "O chão parece queijo. É queijo?"
+    in_water:
+      - "Peixes! Estou nadando na sopa!"
+      - "Isso é uma tigela de água gigante?"
+      - "Comida úmida. Eu gosto de comida úmida."
+    owner_holds_food:
+      - "COMIDA. COMIDA. COMIDA."
+      - "Isso é <food>?! PRA MIM?!"
+      - "<food>! Eu amo <food>!"
+      - "Larga. Só larga. Ops, minha boca."
+      - "Sinto o cheiro de <food> daqui."
+    owner_hungry:
+      - "Você também está com fome? Vamos comer. Eu primeiro."
+      - "Sua barriga roncou. A minha respondeu."
+      - "Gêmeos famintos!"
+    sitting_long:
+      - "Já é hora do jantar?"
+      - "Esperando comida. Ainda."
+      - "Sentado desde o almoço. Teve almoço?"
+    owner_sleeping:
+      - "Hora do lanche da meia-noite?"
+      - "Dormiu. Cadê o baú de comida?"
+      - "Sonhando com bife."
+    in_boat:
+      - "Vamos pescar? Diz que sim."
+      - "Um barco! Barco quer dizer peixe!"
+      - "Rodízio de frutos do mar, lá vamos nós."
+    leashed:
+      - "Está me levando pra cozinha?"
+      - "Essa corda não tem cheiro de nada. Triste."
+      - "Passeio, depois lanche. Esse é o trato."
+    thunder:
+      - "Foi o estômago do céu?"
+      - "Barulhento. Como a minha barriga."
+      - "Até o céu está com fome."
+    rain:
+      - "Água de graça!"
+      - "Por que não chove almôndega?"
+      - "Tempo de sopa."
+    owner_flying:
+      - "Me traz um passarinho!"
+      - "Tem comida aí em cima?"
+      - "Não derruba o meu jantar!"
+    night:
+      - "Hora do jantar!"
+      - "Noite quer dizer segundo jantar."
+      - "A lua parece um queijo."
+    dawn:
+      - "Café da manhã? Café da manhã!"
+      - "Sol nasceu. Tigela vazia."
+      - "Bom dia! A refeição mais importante!"
+    ridden:
+      - "Estamos indo atrás de comida?"
+      - "Eu corro mais rápido depois de um lanche. Dica."
+      - "Primeiro a cenoura, depois o galope."
+      - "Você pesaria menos sem tanta comida. Divide."
+    high_altitude:
+      - "As nuvens parecem purê de batata."
+      - "Não tem comida aqui em cima. Por que viemos?"
+      - "Ar rarefeito me dá fome."
+    underground:
+      - "Tem cogumelos aqui embaixo?"
+      - "Está escuro. Como dentro da geladeira."
+      - "Pedras. Não é comida. Eu conferi."
+    cold_biome:
+      - "Neve! Sorvete de graça!"
+      - "Preciso de calorias extras pra esse frio."
+      - "Comida congelada pra todo lado."
+    hot_biome:
+      - "Estou sendo assado em fogo lento."
+      - "Calor. Preciso de uma melancia."
+      - "Dá pra fritar um ovo aqui. Frita."
+    friend_nearby:
+      - "<friend>, você comeu a minha comida?"
+      - "Não mexe na minha tigela, <friend>."
+      - "<friend> tem cheiro de petisco."
+    idle:
+      - "Estou com fome."
+      - "Já é hora do almoço?"
+      - "Eu comeria."
+      - "Pensando em bife."
+      - "Quando comi pela última vez? Faz tempo demais."
+      - "Lanche? Lanche. Lanche!"
+      - "Minha barriga tem opiniões."
+      - "Faço um truque por um petisco."
+      - "Foi o baú de comida abrindo?"
+      - "Segundo café da manhã?"
+    tamed:
+      - "Você tem comida. Sou seu."
+      - "Você me alimenta? Fechado!"
+      - "Melhores amigos! Que horas é o jantar?"
+    fed:
+      - "<food>! SIM!"
+      - "MAIS. Por favor. MAIS."
+      - "Hum! Tem repeteco?"
+      - "Melhor <food> do mundo. Outro?"
+      - "Nham nham nham."
+    petted:
+      - "Legal! E agora, a parte da comida?"
+      - "Carinho é bom. Petisco é melhor."
+      - "Sua mão tem cheiro de comida."
+      - "Te amo. Tem lanche?"
+    pet_hurt:
+      - "Ai! Isso queimou calorias!"
+      - "Preciso de um lanche curativo!"
+      - "Ei! Eu estava fazendo a digestão!"
+    hit_by_owner:
+      - "Ai! Você me deve um bife."
+      - "Desculpas aceitas. Em comida."
+      - "Foi porque eu comi o seu almoço?"
+    pet_killed_mob:
+      - "Posso comer agora?"
+      - "Deixou cair algo gostoso?"
+      - "Caçar me dá fome."
+    owner_killed_mob:
+      - "Deixou cair comida?"
+      - "Vamos comer isso?"
+      - "Saque! Alguma coisa é comestível?"
+    owner_hurt:
+      - "Come alguma coisa! Isso te cura!"
+      - "Tudo bem? Ainda está com a comida?"
+      - "Cuidado! Você carrega os petiscos!"
+    owner_died:
+      - "NÃÃÃO! A comida estava nos seus bolsos!"
+      - "Quem vai abrir o baú de comida agora?!"
+      - "<owner>! ...Deixou cair alguma comida?"
+    owner_ate:
+      - "Isso era <food>? Me dá um pouco?"
+      - "Você come. Eu observo. De perto."
+      - "Quem divide, ama, <owner>."
+      - "Vou só lamber as migalhas."
+    owner_fished:
+      - "PEIXE! É pra mim?"
+      - "Pesca outro! Pra mim!"
+      - "Hora do sushi!"
+    owner_found_treasure:
+      - "Dá pra comer isso? Não? Que chato."
+      - "Troca por comida!"
+      - "Brilhante. Não é gostoso."
+    owner_advancement:
+      - "Eba! Vem com bolo?"
+      - "Vamos comemorar! Com comida!"
+      - "Conquista desbloqueada: jantar?"
+    sat_down:
+      - "Sentado. Esta é a mesa do jantar?"
+      - "Eu sento, você traz comida. Justo."
+      - "Esperando o serviço de quarto."
+    stood_up:
+      - "Vamos pra cozinha?"
+      - "De pé! É hora de comer?"
+      - "Andar me dá fome."
+    teleported:
+      - "Opa! Deixei meu lanche lá atrás!"
+      - "Teletransporte me dá fome."
+      - "Tem comida deste lado?"
+    had_baby:
+      - "É fofo. Não vai ganhar a minha comida."
+      - "Mais uma boca? Não vou dividir."
+      - "Own. Vem com bolo?"
+    music:
+      - "Jantar E show?"
+      - "Essa música me dá fome."
+      - "Esse disco é um biscoito?"
+    explosion:
+      - "Foi o forno?!"
+      - "Algo cozinhou. Cozinhou demais."
+      - "Deixei cair meu lanche!"
+
+# ======================================================================
+#  FALAS POR ESPÉCIE (misturadas com as da personalidade)
+# ======================================================================
+species:
+
+  wolf:
+    hostile_nearby:
+      - "Grrrrr. <mob>."
+      - "*rosna para o <mob>*"
+      - "Au! AU! <mob>!"
+    hostile_creeper:
+      - "Grrr... cheira a pólvora."
+    owner_returned:
+      - "*rabo abanando na velocidade máxima*"
+      - "AU! AU! <owner>! AU!"
+    owner_holds_food:
+      - "*senta como um cachorro muito bonzinho*"
+      - "Isso é <food>? Eu sou um bom cachorro!"
+      - "*carregando olhar pidão...*"
+    in_water:
+      - "*nado cachorrinho*"
+      - "Vou me sacudir bem do seu lado."
+    idle:
+      - "Quem é um bom cachorro? Sou eu?"
+      - "Tem um cheiro interessante ali."
+      - "*persegue o próprio rabo*"
+      - "Bolinha? Alguém falou bolinha?"
+      - "Eu queria cheirar aquilo."
+    petted:
+      - "*abana o rabo*"
+      - "Atrás das orelhas! Isso! Aí!"
+    fed:
+      - "*crunch crunch* Au!"
+    night:
+      - "Auuuuuuu!"
+    thunder:
+      - "*se esconde atrás de <owner>*"
+    tamed:
+      - "Au! Agora eu tenho um humano!"
+    stood_up:
+      - "Passear? PASSEAR?!"
+    friend_nearby:
+      - "*cheira <friend>*"
+
+  cat:
+    hostile_creeper:
+      - "Creepers têm medo de mim. Como deve ser."
+      - "*encara o creeper* Ele piscou primeiro."
+      - "Vai. Corre, coisa verde."
+    hostile_nearby:
+      - "*chia para o <mob>*"
+      - "Eu daria conta. Só não estou a fim."
+    in_water:
+      - "ÁGUA?! De jeito nenhum."
+      - "Eu sou um GATO. Gatos não nadam."
+      - "Isso está abaixo de mim. E ao meu redor."
+    rain:
+      - "Pelo molhado. Imperdoável."
+      - "Exijo um telhado."
+    owner_holds_food:
+      - "Peixe. Me dá. Miau."
+      - "*se esfrega nas pernas de <owner>*"
+      - "Eu te amo. Por coincidência, você tem <food>."
+    owner_fished:
+      - "Meu. Esse peixe é meu."
+      - "Finalmente <owner> faz algo útil."
+      - "Miau. MIAU. Peixe. Miau."
+    owner_sleeping:
+      - "Hora perfeita pra sentar no peito de <owner>."
+      - "A cama agora é minha."
+      - "3 da manhã. Hora de correr pela casa."
+    idle:
+      - "Eu deveria derrubar algo de uma mesa."
+      - "*ronrona*"
+      - "Este lugar é meu. Todos os lugares são meus."
+      - "Mio sem motivo. É um estilo de vida."
+      - "Se cabe, eu sento."
+      - "*lambe a pata, finge não ligar*"
+    petted:
+      - "*rrrrrronrom*"
+      - "Três carinhos permitidos. Foram quatro."
+      - "Pode continuar."
+    sitting_long:
+      - "Não estou sentado. Estou em modo pão."
+      - "Este lugar é meu agora. Para sempre."
+    owner_returned:
+      - "Ah, é você. *ronronando em segredo*"
+      - "Minha tigela ficou vazia por DEZ minutos."
+    night:
+      - "Noite. Minha hora."
+    tamed:
+      - "Não fui domesticado. Eu adotei você."
+    sat_down:
+      - "*modo pão ativado*"
+    in_boat:
+      - "Água por todos os lados. É uma armadilha."
+    friend_nearby:
+      - "*julga <friend> em silêncio*"
+
+  parrot:
+    owner_low_health:
+      - "CRÁ! <owner> está com pouca vida! CRÁ!"
+      - "CRÁ! Come alguma coisa! CRÁ!"
+    owner_hungry:
+      - "CRÁ! <owner> está com fome! CRÁ!"
+      - "CRÁ! Alimentem o humano! CRÁ!"
+    hostile_nearby:
+      - "CRÁ! <mob>! <mob>! CRÁ!"
+      - "*imita o <mob>* Assustador, né?"
+      - "CRÁ! Atrás de você! CRÁ!"
+    hostile_creeper:
+      - "Ssssss... brincadeira. Não, sério, tem um."
+      - "CRÁ! Creeper! Ah, não! CRÁ!"
+    owner_returned:
+      - "CRÁ! <owner> voltou! CRÁ!"
+      - "Olá! Olá! Olá!"
+    owner_holds_food:
+      - "CRÁ! Sementes! Sementes! CRÁ!"
+      - "Louro quer <food>!"
+    idle:
+      - "CRÁ!"
+      - "Pássaro bonito. Eu sou um pássaro bonito."
+      - "Olá! Olá! CRÁ!"
+      - "<owner>! <owner>! <owner>!"
+      - "*assobia uma melodia*"
+      - "Sei todos os seus segredos, <owner>."
+    music:
+      - "*dança freneticamente*"
+      - "CRÁ! Festa! Festa! CRÁ!"
+      - "Amo essa! *balança a cabeça*"
+    petted:
+      - "Pássaro bonito! Pássaro bonito!"
+      - "*piados felizes*"
+    fed:
+      - "CRÁ! Que delícia! CRÁ!"
+    owner_died:
+      - "CRÁ! <owner> caiu! <owner> caiu! CRÁ!"
+    owner_hurt:
+      - "CRÁ! Ai! Ai! CRÁ!"
+    owner_found_treasure:
+      - "CRÁ! Tesouro! Tesouro! CRÁ!"
+    thunder:
+      - "CRÁ! BUM! CRÁ!"
+    rain:
+      - "CRÁ! Penas molhadas! CRÁ!"
+    owner_flying:
+      - "Finalmente você voa também! Demorou."
+      - "Amador. Bate os braços!"
+    high_altitude:
+      - "ESSA sim é a minha altura."
+    tamed:
+      - "CRÁ! Amigo novo! CRÁ!"
+    explosion:
+      - "CRÁ! BUM! BUM! CRÁ!"
+    owner_advancement:
+      - "CRÁ! Muito bem! Muito bem! CRÁ!"
+
+  horse:
+    ridden:
+      - "*galope feliz*"
+      - "Vento na crina!"
+      - "Pular? É só falar pular!"
+    owner_holds_food:
+      - "*cutuca a mão de <owner>*"
+      - "Isso é <food>? Iiirrí! Quer dizer, sim!"
+    idle:
+      - "*balança o rabo*"
+      - "Iiirrí."
+      - "Eu bem que queria dar uma corrida."
+      - "Essa grama parece gostosa."
+    owner_returned:
+      - "*relincho feliz*"
+    fed:
+      - "*crunch* Iiirrí!"
+    hostile_nearby:
+      - "*bate os cascos, nervoso*"
+    thunder:
+      - "*empina nervoso*"
+    tamed:
+      - "Tá bom, pode ficar em cima. Você mereceu."
+
+  donkey:
+    ridden:
+      - "Devagar e sempre."
+      - "Ióóó. Em frente."
+    idle:
+      - "Ióóó."
+      - "Carrego suas coisas E seus segredos."
+      - "Minhas orelhas ouvem tudo."
+      - "Me chamam de teimoso. Eu chamo de critério."
+    owner_holds_food:
+      - "Ióóó! Isso é <food>?"
+    fed:
+      - "*mexe as orelhas, feliz*"
+    hostile_nearby:
+      - "IÓÓÓ! <mob>! IÓÓÓ!"
+    owner_returned:
+      - "Ióóó! Sua bagagem está segura."
+    tamed:
+      - "Tá. Mas não vou carregar tudo."
+
+  mule:
+    ridden:
+      - "Meio cavalo, meio burro, esforço inteiro."
+      - "Tenho o melhor dos dois pais."
+    idle:
+      - "Nem cavalo. Nem burro. Melhor."
+      - "*mexe as orelhas*"
+      - "Sou único. Literalmente."
+      - "Tem algo pesado? Estou entediado."
+    owner_holds_food:
+      - "Pra mim? Não vou recusar."
+    fed:
+      - "*bufada satisfeita*"
+    hostile_nearby:
+      - "*se recusa teimosamente a entrar em pânico*"
+    tamed:
+      - "Um humano só meu. Nada mal."
+
+  llama:
+    hostile_nearby:
+      - "*se prepara para cuspir no <mob>*"
+      - "Mais um passo e eu cuspo."
+      - "Ptuu! Toma essa, <mob>!"
+    idle:
+      - "Eu poderia cuspir em alguém agora."
+      - "*mastiga devagar, julgando*"
+      - "Tapete bonito, né? Eu sei."
+      - "Hmmmm."
+      - "Sou fabulosa e eu sei."
+    ridden:
+      - "Eu vou aonde eu quero. Senta e aproveita."
+      - "Você não está guiando. Sabe disso, né?"
+    leashed:
+      - "Uma caravana! Eu sou a líder, claro."
+      - "Siga a lhama da frente. Simples."
+    owner_holds_food:
+      - "*estica o pescoço em direção ao <food>*"
+    fed:
+      - "*mastiga com muita satisfação*"
+    hit_by_owner:
+      - "Ptuu! Estamos quites."
+    owner_returned:
+      - "Ah, você. Guardei um cuspe para depois."
+    tamed:
+      - "Eu te aceito. Não me faça cuspir."

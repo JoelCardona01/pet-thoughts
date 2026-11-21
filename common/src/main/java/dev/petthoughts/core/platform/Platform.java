@@ -12,7 +12,11 @@ public interface Platform {
 
     Settings settings();
 
+    /** The server's language (console, logs). */
     LangStore lang();
+
+    /** The language of one player (the language of their game with "language: auto"). */
+    LangStore lang(UUID player);
 
     /** Writes an informational line to the server log. */
     void log(String message);

@@ -2,6 +2,7 @@ package dev.petthoughts.paper;
 
 import dev.petthoughts.core.command.Actor;
 import dev.petthoughts.core.command.Commands;
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.platform.PetView;
 import java.util.List;
@@ -47,6 +48,11 @@ final class PaperCommand implements CommandExecutor, TabCompleter {
         }
 
         @Override
+        public LangStore lang() {
+            return sender instanceof Player player ? plugin.lang(player) : plugin.lang();
+        }
+
+        @Override
         public boolean isPlayer() {
             return sender instanceof Player;
         }
@@ -58,9 +64,10 @@ final class PaperCommand implements CommandExecutor, TabCompleter {
 
         @Override
         public void send(String langKey, Map<String, Object> vars) {
-            Component message = PaperText.message(plugin.lang(), langKey, vars);
+            LangStore lang = lang();
+            Component message = PaperText.message(lang, langKey, vars);
             if (Commands.prefixed(langKey)) {
-                message = PaperText.message(plugin.lang(), "messages.prefix", Map.of()).append(message);
+                message = PaperText.message(lang, "messages.prefix", Map.of()).append(message);
             }
             sender.sendMessage(message);
         }
