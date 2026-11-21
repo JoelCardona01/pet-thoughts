@@ -155,6 +155,17 @@ public final class PetThoughtsMod implements ModInitializer, Platform {
     }
 
     @Override
+    public LangStore lang(UUID player) {
+        MinecraftServer current = server;
+        return lang(player == null || current == null ? null : current.getPlayerList().getPlayer(player));
+    }
+
+    /** The language of the player's game client (with "language: auto"); the server's for null. */
+    public LangStore lang(ServerPlayer player) {
+        return files.lang(player == null ? null : player.clientInformation().language());
+    }
+
+    @Override
     public void log(String message) {
         LOGGER.info(message);
     }

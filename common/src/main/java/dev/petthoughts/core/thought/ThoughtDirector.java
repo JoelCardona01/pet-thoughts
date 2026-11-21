@@ -266,7 +266,7 @@ public final class ThoughtDirector {
     /** /petthoughts test: shows a thought ignoring every cooldown and limit. */
     public Result force(PetView pet, OwnerView owner, Trigger trigger) {
         ensurePersonality(pet);
-        ThoughtVars vars = new ThoughtVars(platform.lang().raw("generic.test-mob"), null, "cooked_beef");
+        ThoughtVars vars = new ThoughtVars(platform.lang(owner.id()).raw("generic.test-mob"), null, "cooked_beef");
         return tryThink(pet, owner, trigger, vars, true);
     }
 
@@ -328,11 +328,12 @@ public final class ThoughtDirector {
             }
         }
 
-        String line = pickLine(pet.personality(), pet.species(), trigger, state.lastLine(trigger), ownerState.recentLines());
+        LangStore lang = platform.lang(owner.id());
+        String line = pickLine(lang, pet.personality(), pet.species(), trigger, state.lastLine(trigger), ownerState.recentLines());
         if (line == null) {
             return Result.NO_LINE;
         }
-        Bubble bubble = BubbleDesigner.design(settings, platform.lang(), line, trigger, placeholders(pet, owner, vars));
+        Bubble bubble = BubbleDesigner.design(settings, lang, line, trigger, placeholders(lang, pet, owner, vars));
         platform.showBubble(pet, owner, bubble);
         if (settings.debug) {
             platform.log("[thought] " + pet.plainName() + " (" + pet.species().id() + ", " + pet.personality().id() + ") of "
@@ -350,9 +351,8 @@ public final class ThoughtDirector {
         return Result.SHOWN;
     }
 
-    /** Values for the variables a line can use, as plain text in the configured language. */
-    private Map<String, Object> placeholders(PetView pet, OwnerView owner, ThoughtVars vars) {
-        LangStore lang = platform.lang();
+    /** Values for the variables a line can use, as plain text in the owner's language. */
+    private Map<String, Object> placeholders(LangStore lang, PetView pet, OwnerView owner, ThoughtVars vars) {
         Map<String, Object> values = new HashMap<>();
         values.put("owner", owner.name());
         values.put("pet", pet.plainName());
@@ -388,9 +388,10 @@ public final class ThoughtDirector {
      * The pet's previous line for the trigger and the lines recently seen around the same player
      * are avoided whenever there is an alternative.
      */
-    private String pickLine(Personality personality, Species species, Trigger trigger, String last, Set<String> recent) {
-        List<String> personalityLines = lines("thoughts." + personality.id() + ".", trigger);
-        List<String> speciesLines = lines("species." + species.id() + ".", trigger);
+    private String pickLine(LangStore lang, Personality personality, Species species, Trigger trigger,
+            String last, Set<String> recent) {
+        List<String> personalityLines = lines(lang, "thoughts." + personality.id() + ".", trigger);
+        List<String> speciesLines = lines(lang, "species." + species.id() + ".", trigger);
 
         List<String> pool = personalityLines;
         if (!speciesLines.isEmpty() && (personalityLines.isEmpty()
@@ -417,10 +418,10 @@ public final class ThoughtDirector {
         return from.get(ThreadLocalRandom.current().nextInt(from.size()));
     }
 
-    private List<String> lines(String prefix, Trigger trigger) {
-        List<String> found = platform.lang().list(prefix + trigger.id());
+    private List<String> lines(LangStore lang, String prefix, Trigger trigger) {
+        List<String> found = lang.list(prefix + trigger.id());
         if (found.isEmpty() && trigger.fallback() != null) {
-            found = platform.lang().list(prefix + trigger.fallback().id());
+            found = lang.list(prefix + trigger.fallback().id());
         }
         return found;
     }

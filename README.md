@@ -10,7 +10,7 @@ Tamed pets show little thought bubbles that react to what happens around them, a
 
 > ✅ **No client mods required** for the plugin. The mods are server-side too: in single player you just install one, on a server your friends can join with a vanilla client.
 >
-> 🇪🇸 Disponible en español (`language: es`).
+> 🌍 Speaks the language of each player's game: English, Español, Português (BR), Français, Deutsch, Русский, Polski and 简体中文.
 
 **⬇ [Download the latest release](https://github.com/JoelCardona01/pet-thoughts/releases/latest)**
 
@@ -23,7 +23,7 @@ Tamed pets show little thought bubbles that react to what happens around them, a
 - 🦜 Species-specific lines (parrots repeat things. Of course they do.)
 - 🤫 **Never spammy**: cooldowns per pet, per trigger and per player, group reactions are limited, lines do not repeat
 - 👀 Show bubbles to everyone or only to the owner, or hide them for yourself
-- 🌍 English and Spanish included, **900+ lines per language**, every one editable · ⚡ Folia supported
+- 🌍 **8 languages**, picked automatically from each player's game language, **900+ lines per language**, every one editable · ⚡ Folia supported
 
 | | |
 |---|---|
@@ -77,7 +77,8 @@ On the mods (Fabric, NeoForge, Forge) there is no permission plugin: player feat
 `plugins/PetThoughts/config.yml` (plugin) or `config/petthoughts/config.yml` (mods):
 
 ```yaml
-language: en               # en | es | your own lang/xx.yml
+language: auto             # auto (each player's game language) | en | es | pt_br | fr | de | ru | pl | zh_cn | your own lang/xx.yml
+fallback-language: en      # console, and players whose language has no file
 visibility: all            # all | owner
 frequency: 1.0             # 0.5 = half as chatty, 2.0 = twice as chatty
 display-seconds: 4
@@ -102,7 +103,7 @@ disabled-triggers: []
 disabled-worlds: []
 ```
 
-Every line the pets say lives in `lang/en.yml` / `lang/es.yml`. Add, change or delete as many as you like and run `/pt reload`. Bubble lines support colours (`<red>`, `<#FF8800>`), `<bold>` and `<italic>`.
+Every line the pets say lives in `lang/<code>.yml` (`en`, `es`, `pt_br`, `fr`, `de`, `ru`, `pl`, `zh_cn`). With `language: auto` each player reads chat messages in the language of their game, and a pet's bubbles use its owner's language; a client language without a file uses the closest one (`es_mx` → `es`, `pt_pt` → `pt_br`) or `fallback-language`. Add your own `lang/xx.yml` (named like the game's locale, e.g. `it_it.yml` or `it.yml`) and it is picked up too. Add, change or delete as many as you like and run `/pt reload`. Bubble lines support colours (`<red>`, `<#FF8800>`), `<bold>` and `<italic>`.
 
 ## 🧩 Compatibility
 
