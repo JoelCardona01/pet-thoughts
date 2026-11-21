@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - `language: auto` (new default): every player gets the language of their game client, which follows the computer's language unless changed in Minecraft. Chat messages use the reader's language, bubbles the owner's. Client languages without a file use the closest one (`es_mx` -> `es`) or the new `fallback-language` (default `en`). Custom `lang/xx.yml` files are picked up automatically.
 
 ### Changed
-- Existing `config.yml` files keep their fixed `language:`; set it to `auto` to use the player's language.
+- Existing `config.yml` files with `language: en` (the old default) are switched to `auto` once, on the first start. Any other language is kept, and `en` set again afterwards is respected.
 
 ## [1.0.0] - 2026-11-11
 

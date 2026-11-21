@@ -55,6 +55,7 @@ public final class DataFiles {
     /** (Re)reads everything from disk. */
     public void reload() {
         copyDefault("config.yml");
+        migrateConfig();
         for (String language : BUNDLED_LANGUAGES) {
             copyDefault("lang/" + language + ".yml");
         }
@@ -78,6 +79,38 @@ public final class DataFiles {
         if (lang == null) {
             warn.accept("Language file lang/" + code + ".yml not found, using English.");
             lang = languages.get("en");
+        }
+    }
+
+    /**
+     * Files written before 1.1.0 have {@code language: en} (the old default) and no
+     * {@code fallback-language}: they are switched to "auto" once, keeping every other line.
+     * Any other language, or "en" chosen after the update, is left alone.
+     */
+    private void migrateConfig() {
+        Path file = folder.resolve("config.yml");
+        try {
+            if (!Files.isRegularFile(file)) {
+                return;
+            }
+            String text = Files.readString(file, StandardCharsets.UTF_8);
+            if (text.contains("fallback-language:")) {
+                return;
+            }
+            String updated = text.replaceFirst("(?m)^language:[ \\t]*[\"']?en[\"']?[ \\t]*(#.*)?$",
+                    "language: auto\n\n# Used for the console, and with \"auto\" for players whose language has no file.\n"
+                            + "fallback-language: en");
+            if (updated.equals(text)) {
+                return;
+            }
+            updated = updated.replace("# Language file to use (lang/en.yml, lang/es.yml, or your own lang/xx.yml).",
+                    "# auto = each player gets the language of their game. Or a fixed code for everyone:\n"
+                            + "# en, es, pt_br, fr, de, ru, pl, zh_cn, or your own lang/xx.yml.");
+            Files.writeString(file, updated, StandardCharsets.UTF_8);
+            warn.accept("config.yml: language changed from en to auto (each player gets the language of their game). "
+                    + "Set language: en to keep English for everyone.");
+        } catch (IOException e) {
+            warn.accept("Could not update " + file + ": " + e.getMessage());
         }
     }
 
