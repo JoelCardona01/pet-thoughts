@@ -3,7 +3,7 @@
 All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.1.0] - 2026-11-21
 
 ### Added
 - NeoForge and Forge builds of the mod for Minecraft 26.3 (`pet-thoughts-neoforge-x.y.z.jar`, `pet-thoughts-forge-x.y.z.jar`), with the same features, config and language files as the Fabric mod. Neither needs any other mod. Pet data (personality, mute, `/petthoughts toggle`) is kept in the entity's own saved data.
