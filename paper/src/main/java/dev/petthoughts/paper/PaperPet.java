@@ -147,7 +147,7 @@ public final class PaperPet implements PetView {
     @Override
     public Component name() {
         Component custom = entity.customName();
-        return custom != null ? custom : Component.text(plugin.lang().raw("species-names." + species.id()));
+        return custom != null ? custom : Component.text(plugin.lang(ownerId()).raw("species-names." + species.id()));
     }
 
     @Override
@@ -302,7 +302,7 @@ public final class PaperPet implements PetView {
                 nearest = living;
             }
         }
-        return nearest == null ? null : new Hostile(nearest instanceof Creeper, PaperText.entityName(plugin.lang(), nearest));
+        return nearest == null ? null : new Hostile(nearest instanceof Creeper, PaperText.entityName(plugin.lang(ownerId()), nearest));
     }
 
     // ---- PDC ----

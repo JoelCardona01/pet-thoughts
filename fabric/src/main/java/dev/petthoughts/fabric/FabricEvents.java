@@ -2,6 +2,7 @@ package dev.petthoughts.fabric;
 
 import dev.petthoughts.core.Personality;
 import dev.petthoughts.core.bubble.Names;
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.platform.PetView;
 import java.util.HashMap;
@@ -125,14 +126,13 @@ public final class FabricEvents {
             if (!(entity instanceof Enemy) || !Names.scary(FabricText.typeId(entity))) {
                 return;
             }
-            String mobName = FabricText.entityName(mod.lang(), entity);
             Entity killer = source.getEntity();
             FabricPet killerPet = killer == null ? null : FabricPet.of(mod, killer);
             ServerPlayer petOwner = ownerOf(mod, killerPet);
             if (petOwner != null) {
-                mod.events().petKilledMob(killerPet, FabricPet.owner(petOwner), mobName);
+                mod.events().petKilledMob(killerPet, FabricPet.owner(petOwner), FabricText.entityName(mod.lang(petOwner), entity));
             } else if (killer instanceof ServerPlayer player) {
-                mod.events().ownerKilledMob(FabricPet.owner(player), mobName);
+                mod.events().ownerKilledMob(FabricPet.owner(player), FabricText.entityName(mod.lang(player), entity));
             }
         });
 
@@ -223,10 +223,11 @@ public final class FabricEvents {
             return;
         }
         Personality personality = mod.director().ensurePersonality(pet);
-        if (!mod.lang().raw("messages.tamed-hint").isBlank()) {
-            player.sendOverlayMessage(FabricText.message(mod.lang(), "messages.tamed-hint", Map.of(
+        LangStore lang = mod.lang(player);
+        if (!lang.raw("messages.tamed-hint").isBlank()) {
+            player.sendOverlayMessage(FabricText.message(lang, "messages.tamed-hint", Map.of(
                     "pet", pet.name(),
-                    "personality", mod.lang().raw("personality." + personality.id() + ".name"))));
+                    "personality", lang.raw("personality." + personality.id() + ".name"))));
         }
         mod.events().tamed(pet, FabricPet.owner(player));
     }

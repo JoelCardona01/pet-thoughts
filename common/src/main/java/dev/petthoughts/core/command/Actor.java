@@ -1,5 +1,6 @@
 package dev.petthoughts.core.command;
 
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.platform.PetView;
 import java.util.Map;
@@ -8,6 +9,9 @@ import java.util.Map;
 public interface Actor {
 
     boolean isPlayer();
+
+    /** The language messages to this actor are written in. */
+    LangStore lang();
 
     /** One of: petthoughts.toggle, .info, .mute, .admin. */
     boolean has(String permission);

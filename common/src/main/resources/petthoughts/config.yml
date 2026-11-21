@@ -4,8 +4,14 @@
 #  lang/<language>.yml and can be edited freely.
 # ----------------------------------------------------------------------
 
-# Language file to use (lang/en.yml, lang/es.yml, or your own lang/xx.yml).
-language: en
+# Language of the thoughts and messages:
+#   auto  each player gets the language of their game (Minecraft uses the language of
+#         the computer unless the player changed it). Bubbles use the owner's language.
+#   or a fixed code for everyone: en, es, pt_br, fr, de, ru, pl, zh_cn, or your own lang/xx.yml.
+language: auto
+
+# Used for the console, and with "auto" for players whose language has no file.
+fallback-language: en
 
 # Who sees the bubbles: "all" (everyone nearby) or "owner" (only the pet's owner).
 visibility: all

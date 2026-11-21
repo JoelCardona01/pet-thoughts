@@ -2,6 +2,7 @@ package dev.petthoughts.paper;
 
 import dev.petthoughts.core.Personality;
 import dev.petthoughts.core.bubble.Names;
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.thought.PetEvents;
 import java.util.List;
@@ -121,10 +122,11 @@ final class PetListener implements Listener {
                 return;
             }
             Personality personality = plugin.director().ensurePersonality(pet);
-            if (!plugin.lang().raw("messages.tamed-hint").isBlank()) {
-                owner.sendActionBar(PaperText.message(plugin.lang(), "messages.tamed-hint", Map.of(
+            LangStore lang = plugin.lang(owner);
+            if (!lang.raw("messages.tamed-hint").isBlank()) {
+                owner.sendActionBar(PaperText.message(lang, "messages.tamed-hint", Map.of(
                         "pet", pet.name(),
-                        "personality", plugin.lang().raw("personality." + personality.id() + ".name"))));
+                        "personality", lang.raw("personality." + personality.id() + ".name"))));
             }
             events().tamed(pet, PaperPet.owner(owner));
         }, null, 1);
@@ -247,18 +249,17 @@ final class PetListener implements Listener {
         if (dead instanceof Player || !(dead instanceof Enemy) || !Names.scary(dead.getType().getKey().getKey())) {
             return;
         }
-        String mobName = PaperText.entityName(plugin.lang(), dead);
         if (dead.getLastDamageCause() instanceof EntityDamageByEntityEvent last) {
             PaperPet killerPet = PaperPet.of(plugin, last.getDamager());
             Player petOwner = ownerOf(killerPet);
             if (petOwner != null) {
-                events().petKilledMob(killerPet, PaperPet.owner(petOwner), mobName);
+                events().petKilledMob(killerPet, PaperPet.owner(petOwner), PaperText.entityName(plugin.lang(petOwner), dead));
                 return;
             }
         }
         Player killer = dead.getKiller();
         if (killer != null) {
-            events().ownerKilledMob(PaperPet.owner(killer), mobName);
+            events().ownerKilledMob(PaperPet.owner(killer), PaperText.entityName(plugin.lang(killer), dead));
         }
     }
 

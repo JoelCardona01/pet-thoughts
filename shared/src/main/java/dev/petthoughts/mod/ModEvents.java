@@ -2,6 +2,7 @@ package dev.petthoughts.mod;
 
 import dev.petthoughts.core.Personality;
 import dev.petthoughts.core.bubble.Names;
+import dev.petthoughts.core.config.LangStore;
 import dev.petthoughts.core.platform.OwnerView;
 import dev.petthoughts.core.platform.PetView;
 import java.util.HashMap;
@@ -149,14 +150,13 @@ public final class ModEvents {
         if (!(entity instanceof Enemy) || !Names.scary(ModText.typeId(entity))) {
             return;
         }
-        String mobName = ModText.entityName(mod.lang(), entity);
         Entity killer = source.getEntity();
         ModPet killerPet = killer == null ? null : ModPet.of(mod, killer);
         ServerPlayer petOwner = ownerOf(mod, killerPet);
         if (petOwner != null) {
-            mod.events().petKilledMob(killerPet, ModPet.owner(petOwner), mobName);
+            mod.events().petKilledMob(killerPet, ModPet.owner(petOwner), ModText.entityName(mod.lang(petOwner), entity));
         } else if (killer instanceof ServerPlayer player) {
-            mod.events().ownerKilledMob(ModPet.owner(player), mobName);
+            mod.events().ownerKilledMob(ModPet.owner(player), ModText.entityName(mod.lang(player), entity));
         }
     }
 
@@ -247,10 +247,11 @@ public final class ModEvents {
             return;
         }
         Personality personality = mod.director().ensurePersonality(pet);
-        if (!mod.lang().raw("messages.tamed-hint").isBlank()) {
-            player.sendOverlayMessage(ModText.message(mod.lang(), "messages.tamed-hint", Map.of(
+        LangStore lang = mod.lang(player);
+        if (!lang.raw("messages.tamed-hint").isBlank()) {
+            player.sendOverlayMessage(ModText.message(lang, "messages.tamed-hint", Map.of(
                     "pet", pet.name(),
-                    "personality", mod.lang().raw("personality." + personality.id() + ".name"))));
+                    "personality", lang.raw("personality." + personality.id() + ".name"))));
         }
         mod.events().tamed(pet, ModPet.owner(player));
     }

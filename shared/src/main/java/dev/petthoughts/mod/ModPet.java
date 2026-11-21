@@ -147,7 +147,7 @@ public final class ModPet implements PetView {
     @Override
     public Component name() {
         Component custom = entity.getCustomName();
-        return custom != null ? custom : Component.literal(mod.lang().raw("species-names." + species.id()));
+        return custom != null ? custom : Component.literal(mod.lang(ownerId()).raw("species-names." + species.id()));
     }
 
     @Override
@@ -296,7 +296,7 @@ public final class ModPet implements PetView {
                 nearest = other;
             }
         }
-        return nearest == null ? null : new Hostile(nearest instanceof Creeper, ModText.entityName(mod.lang(), nearest));
+        return nearest == null ? null : new Hostile(nearest instanceof Creeper, ModText.entityName(mod.lang(ownerId()), nearest));
     }
 
     // ---- persistent data ----

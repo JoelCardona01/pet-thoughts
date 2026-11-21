@@ -140,7 +140,7 @@ public final class Commands {
         if (pet == null) {
             return;
         }
-        LangStore lang = platform.lang();
+        LangStore lang = actor.lang();
         OwnerView owner = actor.view();
         Personality personality = director.ensurePersonality(pet);
         String last = director.lastThought(pet.id());
@@ -200,7 +200,7 @@ public final class Commands {
         }
         pet.setPersonality(personality);
         actor.send("messages.set-done", vars("pet", pet.name(),
-                "personality", platform.lang().raw("personality." + personality.id() + ".name")));
+                "personality", actor.lang().raw("personality." + personality.id() + ".name")));
     }
 
     private void test(Actor actor, String[] args) {
